@@ -29,7 +29,12 @@ jobs:
           shell: bash
           run: |
             echo "::set-output name=IS_PRE_RELEASE::$(echo "${{ steps.get_version.outputs.VERSION }}" | awk 'BEGIN{prerelease="false"} /beta|alpha/{prerelease="true"} END{print prerelease}')"
-        
+        - name: Set Release Type
+          id: release_type
+          shell: bash
+          run: |
+            echo "::set-output name=RELEASE_TYPE::$(echo "${{ steps.get_version.outputs.VERSION }}" | awk 'BEGIN{release_type="release"} /beta|alpha/{release_type="alpha"} END{print release_type}')"
+          
         - name: Build with Gradle
           uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
           with:
@@ -39,6 +44,7 @@ jobs:
           with:
             prerelease: ${{ steps.is_pre_release.outputs.IS_PRE_RELEASE }}
             files: "build/libs/*.jar"
+        
         - name: Upload to CurseForge
           uses: itsmeow/curseforge-upload@3.1.1
           with:
@@ -48,3 +54,4 @@ jobs:
             token: "${{ secrets.CurseForge }}"
             project_id: "910093"
             display_name: "${{ steps.get_version.outputs.VERSION }}"
+            release_type: ${{ steps.release_type.outputs.RELEASE_TYPE }}
