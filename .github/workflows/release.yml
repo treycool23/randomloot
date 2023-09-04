@@ -42,6 +42,7 @@ jobs:
         token: "${{ secrets.CurseForge }}"
         project_id: "910093"
         display_name: "canary"
+        release_type: "alpha"
 
 
             
