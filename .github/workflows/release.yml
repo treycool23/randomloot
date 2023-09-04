@@ -25,6 +25,9 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
+    - name: Rename Binary
+        shell: bash
+        run: cp "build/libs/*.jar" "*-canary.jar"
     - uses: ncipollo/release-action@v1.13.0
       with:
         name: "Canary"
@@ -32,3 +35,15 @@ jobs:
         tag: "canary"
         allowUpdates: true
         artifacts: "build/libs/*.jar"
+    - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@3.1.1
+        with:
+          file_path: "build/libs/randomloot-1.0.0.jar"
+          game_endpoint: "minecraft"
+          game_versions: "Minecraft 1.20:1.20-.1,Java 17,Forge"
+          token: "${{ secrets.CurseForge }}"
+          project_id: "910093"
+          display_name: "canary"
+
+
+            
