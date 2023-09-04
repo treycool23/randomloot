@@ -138,6 +138,10 @@ public class LootItem extends Item {
 		return comp;
 	}
 
+	private void newLine(List<Component> tipList) {
+		tipList.add(makeComp("", ChatFormatting.GRAY));
+	}
+
 	@Override
 	public void appendHoverText(ItemStack item, @Nullable Level level, List<Component> tipList, TooltipFlag flag) {
 
@@ -147,13 +151,14 @@ public class LootItem extends Item {
 		tipList.add(desc);
 
 		if (show) {
+			newLine(tipList);
 			int itemLevel = LootUtils.getLevel(item);
-			tipList.add(
-					makeComp("" + LootUtils.getXP(item) + " / " + LootUtils.getMaxXP(itemLevel) + " | lvl " + itemLevel,
-							ChatFormatting.GRAY));
+			tipList.add(makeComp("Level: " + itemLevel, ChatFormatting.GRAY));
+			tipList.add(makeComp("XP: " + LootUtils.getXP(item) + " / " + LootUtils.getMaxXP(itemLevel),
+					ChatFormatting.GRAY));
 		}
 
-		tipList.add(makeComp("", ChatFormatting.GRAY));
+		newLine(tipList);
 
 		List<Modifier> mods = LootUtils.getModifiers(item);
 		Collections.sort(mods, new Comparator<Modifier>() {
@@ -177,13 +182,13 @@ public class LootItem extends Item {
 		}
 
 		if (show) {
-			tipList.add(makeComp("", ChatFormatting.GRAY));
+			newLine(tipList);
 
 			float digSpeed = LootItem.getDigSpeed(item);
 			tipList.add(makeComp(String.format("Speed: %.2f", digSpeed), ChatFormatting.GRAY));
 		}
 
-		tipList.add(makeComp("", ChatFormatting.GRAY));
+		newLine(tipList);
 		MutableComponent comp = MutableComponent.create(ComponentContents.EMPTY);
 		comp.append("[Shift for details]");
 		comp = comp.withStyle(ChatFormatting.GRAY);
