@@ -5,7 +5,9 @@ import com.mojang.logging.LogUtils;
 import dev.marston.randomloot.loot.LootCase;
 import dev.marston.randomloot.loot.LootItem;
 import dev.marston.randomloot.loot.LootRegistry;
+import dev.marston.randomloot.loot.LootUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -51,6 +53,8 @@ public class RandomLootMod {
 	// the "examplemod" namespace
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
+	public static long Seed = 0;
+	
 	// Create a Deferred Register to hold CreativeModeTabs which will all be
 	// registered under the "examplemod" namespace
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
@@ -106,6 +110,8 @@ public class RandomLootMod {
 	public void onServerStarting(ServerStartingEvent event) {
 		// Do something when the server starts
 		LOGGER.info("Starting server with RandomLoot installed!");
+		
+		Seed = event.getServer().getWorldData().worldGenOptions().seed();
 	}
 
 	// You can use EventBusSubscriber to automatically register all static methods
@@ -117,6 +123,15 @@ public class RandomLootMod {
 			// Some client setup code
 			LOGGER.info("Client is starting with RandomLoot installed!");
 			LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+			
+			
+			event.enqueueWork(() ->
+			  {
+			    ItemProperties.register(LootRegistry.ToolItem, 
+			      new ResourceLocation(RandomLootMod.MODID, "cosmetic"), (stack, level, living, id) -> {
+			    	  return LootUtils.getTexture(stack);
+			      });
+			  });
 		}
 	}
 	
