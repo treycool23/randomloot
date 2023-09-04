@@ -93,7 +93,7 @@ public class Learning implements BlockBreakModifier {
 
 	@Override
 	public String description() {
-		return "After breaking " + count + " blocks as allowed by this tool, gain " + points + " experience points.";
+		return "After breaking " + max + " blocks as allowed by this tool, gain " + points + " experience points.";
 	}
 
 	@Override

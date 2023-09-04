@@ -21,6 +21,11 @@ public class LootCase extends Item {
 	public LootCase() {
 		super(new Properties().stacksTo(1));
 	}
+	
+	@Override
+	public boolean isFoil(ItemStack stack) {
+	      return true;
+	   }
 
 	@Override
 	public InteractionResult useOn(UseOnContext useContext) {
@@ -32,6 +37,8 @@ public class LootCase extends Item {
 
 		return InteractionResult.SUCCESS;
 	}
+	
+	
 	
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tipList, TooltipFlag flag) {

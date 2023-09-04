@@ -81,6 +81,7 @@ public class RandomLootMod {
 		modEventBus.addListener(this::commonSetup);
 
 //		BLOCKS.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
 
 //		CREATIVE_MODE_TABS.register(modEventBus);
 
