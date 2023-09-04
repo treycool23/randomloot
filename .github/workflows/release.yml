@@ -29,4 +29,5 @@ jobs:
       with:
         name: "Canary"
         prerelease: true
+        tag: "canary"
         artifacts: "build/libs/*.jar"
