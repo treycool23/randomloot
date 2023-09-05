@@ -2,6 +2,8 @@ package dev.marston.randomloot.loot.modifiers.breakers;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
@@ -105,7 +107,7 @@ public class Learning implements BlockBreakModifier {
 	}
 
 	@Override
-	public Component writeDetailsToLore() {
+	public Component writeDetailsToLore(@Nullable Level level) {
 
 		float amt = ((float) count) / ((float) max) * 100;
 		String perc = String.format("%.0f%% Learned", amt);

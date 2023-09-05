@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import dev.marston.randomloot.loot.LootItem;
+import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -12,26 +14,23 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Fire implements EntityHurtModifier{
+public class Critical implements EntityHurtModifier{
 	private String name;
-	private int points;
-	private final static String POINTS = "points";
 
-	public Fire(String name, int points) {
+	public Critical(String name) {
 		this.name = name;
-		this.points = points;
 	}
 
-	public Fire() {
-		this.name = "Flaming";
-		this.points = 2;
+	public Critical() {
+		this.name = "Critical";
 	}
 
 	public Modifier clone() {
-		return new Fire();
+		return new Critical();
 	}
 
 	
@@ -40,7 +39,6 @@ public class Fire implements EntityHurtModifier{
 
 		CompoundTag tag = new CompoundTag();
 
-		tag.putInt(POINTS, points);
 		tag.putString(NAME, name);
 
 		return tag;
@@ -48,7 +46,7 @@ public class Fire implements EntityHurtModifier{
 
 	@Override
 	public Modifier fromNBT(CompoundTag tag) {
-		return new Fire(tag.getString(NAME), tag.getInt(POINTS));
+		return new Critical(tag.getString(NAME));
 	}
 
 	@Override
@@ -58,17 +56,17 @@ public class Fire implements EntityHurtModifier{
 
 	@Override
 	public String tagName() {
-		return "flaming";
+		return "critical";
 	}
 
 	@Override
 	public String color() {
-		return ChatFormatting.RED.getName();
+		return ChatFormatting.GOLD.getName();
 	}
 
 	@Override
 	public String description() {
-		return "Sets enemy on fire for " + this.points + " seconds.";
+		return "Always critically strikes enemy.";
 	}
 
 	@Override
@@ -97,6 +95,17 @@ public class Fire implements EntityHurtModifier{
 
 	@Override
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
-		hurtee.setSecondsOnFire(points);
+		float dmg = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
+
+		float amt = dmg * 0.5f;
+		
+		
+		if (hurter instanceof Player) {
+			Player p = (Player) hurter;
+			hurtee.hurt(hurter.damageSources().playerAttack(p), amt);
+			return;
+		}
+		
+		hurtee.hurt(hurter.damageSources().mobAttack(hurter), amt);
 	}
 }

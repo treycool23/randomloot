@@ -2,6 +2,8 @@ package dev.marston.randomloot.loot.modifiers;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -9,6 +11,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.level.Level;
 
 
 
@@ -40,7 +43,7 @@ public interface Modifier {
 	static final String NAME = "name";  
 	public String tagName();
 	public void writeToLore(List<Component> list, boolean shift);
-	public Component writeDetailsToLore();
+	public Component writeDetailsToLore(@Nullable Level level);
 	public String description();
 	public String name();
 	public String color();

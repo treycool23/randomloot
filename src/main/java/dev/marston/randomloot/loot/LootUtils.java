@@ -132,7 +132,7 @@ public class LootUtils {
 
 		ArrayList<Modifier> tags = new ArrayList<Modifier>();
 
-		CompoundTag modifiers = item.getTagElement(Modifier.MODTAG);
+		CompoundTag modifiers = item.getOrCreateTagElement(Modifier.MODTAG);
 		if (modifiers == null) {
 			return tags;
 		}
@@ -145,7 +145,10 @@ public class LootUtils {
 			CompoundTag modTag = modifiers.getCompound(string);
 
 			Modifier finalModifier = ModifierRegistry.loadModifier(string, modTag);
-
+			if (finalModifier == null) {
+				continue;
+			}
+			
 			tags.add(finalModifier);
 
 		}

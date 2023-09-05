@@ -1,4 +1,4 @@
-package dev.marston.randomloot.loot.modifiers.breakers;
+package dev.marston.randomloot.loot.modifiers.holders;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
+import dev.marston.randomloot.loot.modifiers.HoldModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
 import dev.marston.randomloot.loot.modifiers.users.TorchPlace;
@@ -16,39 +17,37 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 
-public class Explode implements BlockBreakModifier{
+public class Hasty implements HoldModifier{
 
 	private String name;
 	private float power;
 	private final static String POWER = "power";  
 	
-	public Explode(String name, float power) {
+	public Hasty(String name, float power) {
 		this.name = name;
 		this.power = power;
 	}
 	
-	public Explode() {
-		this.name = "Explosive";
+	public Hasty() {
+		this.name = "Hasty";
 		this.power = 4.0f;
 	}
 	
 	public Modifier clone() {
-		return new Explode();
+		return new Hasty();
 	}
 	
-	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, Player player) {
-		
-		Level l = player.level();
-		
-		l.explode(player, null, null, pos.getX(), pos.getY(), pos.getZ(), power, false, ExplosionInteraction.BLOCK, false);
-	}
+	
 
 	@Override
 	public CompoundTag toNBT() {
@@ -64,7 +63,7 @@ public class Explode implements BlockBreakModifier{
 
 	@Override
 	public Modifier fromNBT(CompoundTag tag) {
-		return new Explode(tag.getString(NAME), tag.getFloat(POWER));
+		return new Hasty(tag.getString(NAME), tag.getFloat(POWER));
 	}
 
 	@Override
@@ -74,17 +73,17 @@ public class Explode implements BlockBreakModifier{
 
 	@Override
 	public String tagName() {
-		return "explode";
+		return "hasty";
 	}
 
 	@Override
 	public String color() {
-		return "red";
+		return ChatFormatting.BLUE.getName();
 	}
 
 	@Override
 	public String description() {
-		return "Upon breaking a block (allowed by tool type), the current block position will explode causing damage to surrounding blocks.";
+		return "While holding the tool, get the Haste effect.";
 	}
 	
 	@Override
@@ -110,5 +109,19 @@ public class Explode implements BlockBreakModifier{
 	@Override
 	public boolean forTool(ToolType type) {
 		return type.equals(ToolType.PICKAXE) || type.equals(ToolType.AXE) || type.equals(ToolType.SHOVEL);
+	}
+
+	@Override
+	public void hold(ItemStack stack, Level level, Entity holder) {
+		MobEffectInstance haste = new MobEffectInstance(MobEffects.DIG_SPEED, 3, 0, true, false);
+
+		if (holder instanceof LivingEntity) {
+			haste.applyEffect((LivingEntity) holder);
+		}
+		if (holder instanceof Player) {
+			Player p = (Player) holder;
+			p.addEffect(haste);
+		}
+		
 	}
 }

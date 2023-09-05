@@ -2,6 +2,8 @@ package dev.marston.randomloot.loot.modifiers.users;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -118,7 +120,7 @@ public class TorchPlace implements UseModifier{
 	}
 	
 	@Override
-	public Component writeDetailsToLore() {
+	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return Modifier.makeComp("Right-click to place a torch for " + this.damage + " durability points.",
 				ChatFormatting.GRAY);
