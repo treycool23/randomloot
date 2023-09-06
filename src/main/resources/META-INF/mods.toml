@@ -3,10 +3,10 @@ loaderVersion="[45,)"
 license="All Rights Reserved"
 [[mods]] 
     modId="randomloot"
-    version="1.0.0.0" 
-    displayName="Random Loot" 
-    displayURL="https://marston.dev/randomloot" #optional
-    #logoFile="examplemod.png" #optional
+    version="0.0.0" 
+    displayName="RandomLoot 2" 
+    displayURL="https://github.com/TheMarstonConnell/randomloot" #optional
+    logoFile="assets/randomloot/logo.png" #optional
     #credits="" #optional
     authors="Marston Connell" 
 

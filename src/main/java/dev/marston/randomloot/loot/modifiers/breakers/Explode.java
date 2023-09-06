@@ -36,7 +36,7 @@ public class Explode implements BlockBreakModifier{
 	
 	public Explode() {
 		this.name = "Explosive";
-		this.power = 4.0f;
+		this.power = 2.0f;
 	}
 	
 	public Modifier clone() {

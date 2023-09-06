@@ -122,9 +122,7 @@ public class TorchPlace implements UseModifier{
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
-		return Modifier.makeComp("Right-click to place a torch for " + this.damage + " durability points.",
-				ChatFormatting.GRAY);
-
+		return null;
 	}
 	
 	@Override

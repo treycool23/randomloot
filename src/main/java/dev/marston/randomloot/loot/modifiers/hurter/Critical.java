@@ -10,6 +10,7 @@ import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -99,7 +100,8 @@ public class Critical implements EntityHurtModifier{
 
 		float amt = dmg * 0.5f;
 		
-		
+		Modifier.TrackEntityParticle(hurtee.level(), hurtee, ParticleTypes.CRIT);
+
 		if (hurter instanceof Player) {
 			Player p = (Player) hurter;
 			hurtee.hurt(hurter.damageSources().playerAttack(p), amt);
@@ -107,5 +109,7 @@ public class Critical implements EntityHurtModifier{
 		}
 		
 		hurtee.hurt(hurter.damageSources().mobAttack(hurter), amt);
+		
+		
 	}
 }

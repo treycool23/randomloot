@@ -57,6 +57,7 @@ public class RandomLootMod {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::addCreative);
 
 		ModLootModifiers.register(modEventBus);
 
@@ -69,6 +70,12 @@ public class RandomLootMod {
 		LOGGER.info("RandomLoot Common Setup");
 
 	}
+	
+	private void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+            event.accept(LootRegistry.CaseItem);
+    }
 
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {

@@ -18,6 +18,8 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -391,7 +393,15 @@ public class LootUtils {
 
 		LootUtils.setTexture(lootItem, (int) (Math.random() * textureCount));
 
-		player.addItem(lootItem);
+		
+		boolean added = player.addItem(lootItem);
+		if (!added) {
+			ItemEntity dropItem = new ItemEntity(EntityType.ITEM, level);
+			dropItem.setItem(lootItem);
+			dropItem.setPos(player.position());
+			
+			level.addFreshEntity(dropItem);
+		}
 	}
 
 }

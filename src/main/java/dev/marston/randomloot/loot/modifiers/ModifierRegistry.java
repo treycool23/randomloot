@@ -10,6 +10,7 @@ import dev.marston.randomloot.loot.modifiers.breakers.Learning;
 import dev.marston.randomloot.loot.modifiers.holders.Effect;
 import dev.marston.randomloot.loot.modifiers.holders.Hasty;
 import dev.marston.randomloot.loot.modifiers.hurter.Charging;
+import dev.marston.randomloot.loot.modifiers.hurter.Combo;
 import dev.marston.randomloot.loot.modifiers.hurter.Critical;
 import dev.marston.randomloot.loot.modifiers.hurter.Fire;
 import dev.marston.randomloot.loot.modifiers.users.DirtPlace;
@@ -33,7 +34,8 @@ public class ModifierRegistry {
 	public static Modifier FLAMING = register(new Fire());
 	public static Modifier CRITICAL = register(new Critical());
 	public static Modifier CHARGING = register(new Charging());
-	
+	public static Modifier COMBO = register(new Combo());
+
 	public static Modifier HASTY = register(new Hasty());
 	public static Modifier FILLING = register(new Effect("Filling", "filling", 2, MobEffects.SATURATION));
 	public static Modifier ABSORBTION = register(new Effect("Appley", "absorbtion", 10, MobEffects.ABSORPTION));
@@ -43,7 +45,7 @@ public class ModifierRegistry {
 
 	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE);
-	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING);
+	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING);
 
 	public static Modifier register(Modifier modifier) {

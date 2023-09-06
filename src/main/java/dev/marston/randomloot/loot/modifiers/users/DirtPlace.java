@@ -285,7 +285,7 @@ public class DirtPlace implements UseModifier {
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
-		return Modifier.makeComp("Right-click to place a dirt block for " + this.damage + " durability points.", ChatFormatting.GRAY);
+		return null;
 
 	}
 	
