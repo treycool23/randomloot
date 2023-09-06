@@ -50,7 +50,7 @@ jobs:
           with:
             file_path: "build/libs/randomloot-1.0.0.jar"
             game_endpoint: "minecraft"
-            game_versions: "Minecraft 1.20:1.20-.1,Java 17,Forge"
+            game_versions: "Minecraft 1.20:1.20.1,Java 17,Forge"
             token: "${{ secrets.CurseForge }}"
             project_id: "910093"
             display_name: "${{ steps.get_version.outputs.VERSION }}"

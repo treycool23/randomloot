@@ -48,7 +48,9 @@ public class CaseModifier extends LootModifier {
 		}
 		
 		
-		if (context.getRandom().nextFloat() < 0.25f) {
+		double chance = Config.CaseChance;
+		
+		if (context.getRandom().nextDouble() < chance) {
 			generatedLoot.add(new ItemStack(item));
 		}
 		

@@ -212,9 +212,27 @@ public class LootItem extends Item {
 	@Override
 	public boolean mineBlock(ItemStack stack, Level level, BlockState blockState, BlockPos pos, LivingEntity player) {
 		if (!level.isClientSide && blockState.getDestroySpeed(level, pos) != 0.0F) {
+			RandomLootMod.LOGGER.info("breaking block!");
+
+			List<Modifier> mods = LootUtils.getModifiers(stack);
+
+			for (Modifier mod : mods) {
+				RandomLootMod.LOGGER.info("testing for " + mod.name());
+
+				if (mod instanceof BlockBreakModifier) {
+					BlockBreakModifier bbm = (BlockBreakModifier) mod;
+					RandomLootMod.LOGGER.info("running " + bbm.name());
+
+					bbm.startBreak(stack, pos, player);
+				}
+			}
+			
 			stack.hurtAndBreak(1, player, (p_40992_) -> {
 				p_40992_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 			});
+			
+			LootUtils.addXp(stack, 1);
+
 		}
 
 		return true;
@@ -223,23 +241,7 @@ public class LootItem extends Item {
 	@Override
 	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, Player player) {
 
-		ToolType type = LootUtils.getToolType(itemstack);
-
-		if (type != ToolType.AXE && type != ToolType.PICKAXE && type != ToolType.SHOVEL) {
-			return super.onBlockStartBreak(itemstack, pos, player);
-		}
-
-		List<Modifier> mods = LootUtils.getModifiers(itemstack);
-
-		for (Modifier mod : mods) {
-			if (mod instanceof BlockBreakModifier) {
-				BlockBreakModifier bbm = (BlockBreakModifier) mod;
-
-				bbm.startBreak(itemstack, pos, player);
-			}
-		}
-
-		LootUtils.addXp(itemstack, 1);
+		
 
 		return super.onBlockStartBreak(itemstack, pos, player);
 	}

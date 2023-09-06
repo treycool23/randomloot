@@ -15,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -47,8 +48,15 @@ public class Learning implements BlockBreakModifier {
 	}
 
 	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, Player player) {
+	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity entity) {
 
+		
+		if (!(entity instanceof Player)) {
+			return;
+		}
+		
+		Player player = (Player) entity;
+		
 		Level l = player.level();
 
 		this.count++;

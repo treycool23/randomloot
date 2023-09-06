@@ -343,7 +343,7 @@ public class LootUtils {
 
 		float goodness = (float) Math.sqrt(count + 1); // keeping track of items stats through a "goodness" curve
 
-		int traits = (int) (Math.floor(goodness / 2.0f) + 1); // how many traits the tool should be created with
+		int traits = (int) (Math.floor(goodness / 2.0f)); // how many traits the tool should be created with
 
 		LootUtils.setStats(lootItem, goodness);
 
