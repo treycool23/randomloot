@@ -75,6 +75,15 @@ public class LootUtils {
 		int xp = (int) (500 * Math.pow(2, level));
 		return xp;
 	}
+	
+	public static ItemStack levelUp(ItemStack item) {
+		
+		float stats = getStats(item);
+		stats = stats * 1.05f;
+		setStats(item, stats);
+		
+		return item;
+	}
 
 	public static ItemStack addXp(ItemStack item, int amount) {
 
@@ -91,6 +100,7 @@ public class LootUtils {
 		while (xp >= max) {
 			xp = xp - max;
 			level++;
+			item = levelUp(item);
 		}
 
 		tag.putInt("level", level);
