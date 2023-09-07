@@ -9,7 +9,9 @@ import dev.marston.randomloot.loot.modifiers.breakers.Explode;
 import dev.marston.randomloot.loot.modifiers.breakers.Learning;
 import dev.marston.randomloot.loot.modifiers.holders.Effect;
 import dev.marston.randomloot.loot.modifiers.holders.Hasty;
+import dev.marston.randomloot.loot.modifiers.holders.OreFinder;
 import dev.marston.randomloot.loot.modifiers.holders.Rainy;
+import dev.marston.randomloot.loot.modifiers.holders.TreasureFinder;
 import dev.marston.randomloot.loot.modifiers.hurter.Charging;
 import dev.marston.randomloot.loot.modifiers.hurter.Combo;
 import dev.marston.randomloot.loot.modifiers.hurter.Critical;
@@ -44,11 +46,13 @@ public class ModifierRegistry {
 	public static Modifier RESISTANT = register(new Effect("Resistant", "resistance", 1, MobEffects.DAMAGE_RESISTANCE));
 	public static Modifier FIRE_RESISTANT = register(new Effect("Heat Resistant", "fire_resistance", 1, MobEffects.FIRE_RESISTANCE));
 	public static Modifier RAINY = register(new Rainy());
+	public static Modifier ORE_FINDER = register(new OreFinder());
+	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 
 	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE);
 	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO);
-	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY);
+	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER);
 
 	public static Modifier register(Modifier modifier) {
 		

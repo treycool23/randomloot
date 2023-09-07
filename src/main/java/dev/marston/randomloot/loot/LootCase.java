@@ -12,6 +12,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.StatType;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -39,7 +42,14 @@ public class LootCase extends Item {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack lootCase = player.getItemInHand(hand);
 		lootCase.shrink(1); // removing case from inventory
-
+		
+		if (player instanceof ServerPlayer) {
+			ServerPlayer sPlayer = (ServerPlayer) player;
+			StatType<Item> itemUsed = Stats.ITEM_USED;
+			
+			sPlayer.getStats().increment(sPlayer, itemUsed.get(LootRegistry.CaseItem), 1);
+		}
+		
 		Modifier.TrackEntityParticle(level, player, ParticleTypes.CLOUD);
 
 		Thread thread = new Thread() {
@@ -50,7 +60,7 @@ public class LootCase extends Item {
 					e.printStackTrace();
 				}
 				LootUtils.generateTool(player, level); // generate tool and give it to the player
-
+				
 			}
 		};
 

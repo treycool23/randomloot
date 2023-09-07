@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonObject;
 
+import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
@@ -339,7 +340,7 @@ public class LootUtils {
 		if (player instanceof ServerPlayer) {
 			ServerPlayer sPlayer = (ServerPlayer) player;
 			StatType<Item> itemUsed = Stats.ITEM_USED;
-
+			
 			count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
 		}
 
@@ -347,6 +348,8 @@ public class LootUtils {
 
 		int traits = (int) (Math.floor(goodness / 2.0f)); // how many traits the tool should be created with
 
+		RandomLootMod.LOGGER.info("generating tool with a goodness score of " + goodness + " and a trait count of " + traits);
+		
 		LootUtils.setStats(lootItem, goodness);
 
 		int toolType = (int) (Math.random() * 4);
