@@ -1,6 +1,8 @@
-# RandomLoot 2
+# Random Loot
 
-**RandomLoot 2** is the continuation and subsequent rewrite of the [Random Loot Mod](https://www.curseforge.com/minecraft/mc-mods/random-loot-mod). RL2 was rewritten from the ground up to support Minecraft 1.20.x with the goals of creating an easier to maintain code-base with an expandable modifier system.
+Introducing Looting like you've never seen it before! Have you ever felt that Minecraft didn't have enough tools and weapons to make you happy? Are you dissatisfied with the low amount of character each tool has? Ever wanted your tools to get better as you use them? Yes?!? Well then this is the mod for you!
+
+**Random Loot 2** was rewritten from the ground up to support Minecraft 1.20.x with the goals of creating an easier to maintain code-base with an expandable modifier system.
 
 ## Items
 This mod adds two items, the Loot Case and the Random Tool. You'll never see the Random Tool called the Random Tool since every tool is randomly generated and uniquely named.
@@ -22,6 +24,9 @@ Holding Shift while hovering over tools will give you an expanded view on detail
 
 Holding Control (command on a mac) while hovering over tools will give you a description of every trait currently applied to the tool.
 ![tools with control information](https://raw.githubusercontent.com/TheMarstonConnell/randomloot/main/.github/assets/expanded_info.png)
+
+## Another Rewrite?
+The jump from 1.12 to 1.16 was one of the biggest changes to Forge & the Minecraft codebase making a complete rewrite of the mod very welcome. However, the 1.16 to 1.20 is again, a massive change and I'm overall dissatisfied with the 1.16 version of the mods codebase and sloppy planning. As such, 1.20 is a complete rewrite of Random Loot to make the mod feel more cohesive and less janky.
 
 ## Credits
 Thank you to Sprucefence, Xiruen, and Zorbyn for donating tool textures.
