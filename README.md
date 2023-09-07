@@ -28,5 +28,8 @@ Holding Control (command on a mac) while hovering over tools will give you a des
 ## Another Rewrite?
 The jump from 1.12 to 1.16 was one of the biggest changes to Forge & the Minecraft codebase making a complete rewrite of the mod very welcome. However, the 1.16 to 1.20 is again, a massive change and I'm overall dissatisfied with the 1.16 version of the mods codebase and sloppy planning. As such, 1.20 is a complete rewrite of Random Loot to make the mod feel more cohesive and less janky.
 
+## Changelog
+Check the changelog [here](https://github.com/TheMarstonConnell/randomloot/blob/main/CHANGELOG.md)
+
 ## Credits
 Thank you to Sprucefence, Xiruen, and Zorbyn for donating tool textures.
