@@ -15,7 +15,9 @@ import dev.marston.randomloot.loot.modifiers.holders.TreasureFinder;
 import dev.marston.randomloot.loot.modifiers.hurter.Charging;
 import dev.marston.randomloot.loot.modifiers.hurter.Combo;
 import dev.marston.randomloot.loot.modifiers.hurter.Critical;
+import dev.marston.randomloot.loot.modifiers.hurter.Draining;
 import dev.marston.randomloot.loot.modifiers.hurter.Fire;
+import dev.marston.randomloot.loot.modifiers.hurter.HurtEffect;
 import dev.marston.randomloot.loot.modifiers.users.DirtPlace;
 import dev.marston.randomloot.loot.modifiers.users.TorchPlace;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +29,7 @@ public class ModifierRegistry {
 	public static HashMap<String, Modifier> Modifiers = new HashMap<String, Modifier>();
 	
 	
-	public static Modifier EXPLODE = register(new Explode());
+//	public static Modifier EXPLODE = register(new Explode()); // disabling exploding until we can remove it from config
 	public static Modifier LEARNING = register(new Learning());
 	public static Modifier ATTRACTING = register(new Attracting());
 
@@ -38,6 +40,10 @@ public class ModifierRegistry {
 	public static Modifier CRITICAL = register(new Critical());
 	public static Modifier CHARGING = register(new Charging());
 	public static Modifier COMBO = register(new Combo());
+	public static Modifier DRAINING = register(new Draining());
+	public static Modifier POISONOUS = register(new HurtEffect("Poisonous", "poison", 2, MobEffects.POISON));
+	public static Modifier WITHERING = register(new HurtEffect("Withering", "wither", 1, MobEffects.WITHER));
+	public static Modifier BLINDING = register(new HurtEffect("Blinding", "blinding", 3, MobEffects.BLINDNESS));
 
 	public static Modifier HASTY = register(new Hasty());
 	public static Modifier FILLING = register(new Effect("Filling", "filling", 2, MobEffects.SATURATION));
@@ -49,9 +55,9 @@ public class ModifierRegistry {
 	public static Modifier ORE_FINDER = register(new OreFinder());
 	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 
-	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING);
+	public static final Set<Modifier> BREAKERS = Set.of(/**EXPLODE,*/ LEARNING, ATTRACTING);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE);
-	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO);
+	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS, WITHERING, BLINDING);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER);
 
 	public static Modifier register(Modifier modifier) {

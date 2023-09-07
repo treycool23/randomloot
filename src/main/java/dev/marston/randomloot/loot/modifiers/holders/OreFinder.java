@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -132,7 +133,13 @@ public class OreFinder implements HoldModifier{
 		return type.equals(ToolType.PICKAXE) || type.equals(ToolType.AXE) || type.equals(ToolType.SHOVEL);
 	}
 	
-	
+	@SubscribeEvent
+	public static void serverStop(ServerStoppingEvent event) {
+		for (Shulker shulker : shulkers) {
+			shulker.setPos(0, -256, 0);
+			shulker.setHealth(0);
+		}
+	}
 	
 
 	@SubscribeEvent
@@ -154,7 +161,7 @@ public class OreFinder implements HoldModifier{
 				
 				
 				if(tick > maxShulkerLife || sh.level().getBlockState(sh.blockPosition()).getBlock().equals(Blocks.AIR)) {
-					shulkers.get(iOff).setPos(0, -64, 0);
+					shulkers.get(iOff).setPos(0, -256, 0);
 					shulkers.get(iOff).setHealth(0);
 					shulkers.remove(iOff);
 					timings.remove(iOff);

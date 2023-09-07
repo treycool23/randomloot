@@ -348,7 +348,6 @@ public class LootUtils {
 
 		int traits = (int) (Math.floor(goodness / 2.0f)); // how many traits the tool should be created with
 
-		RandomLootMod.LOGGER.info("generating tool with a goodness score of " + goodness + " and a trait count of " + traits);
 		
 		LootUtils.setStats(lootItem, goodness);
 

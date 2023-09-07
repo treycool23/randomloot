@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -132,6 +133,13 @@ public class TreasureFinder implements HoldModifier{
 		return true;
 	}
 	
+	@SubscribeEvent
+	public static void serverStop(ServerStoppingEvent event) {
+		for (Shulker shulker : shulkers) {
+			shulker.setPos(0, -256, 0);
+			shulker.setHealth(0);
+		}
+	}
 	
 	
 

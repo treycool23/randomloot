@@ -44,6 +44,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LootItem extends Item {
@@ -135,7 +136,11 @@ public class LootItem extends Item {
 			blocks = BlockTags.MINEABLE_WITH_AXE;
 		} else if (type == ToolType.SHOVEL) {
 			blocks = BlockTags.MINEABLE_WITH_SHOVEL;
-		} else {
+		} else if (type == ToolType.SWORD) {
+			if (block.getBlock() == Blocks.COBWEB) {
+				return 15.0f;
+			}
+		}else {
 			return 1.0f;
 		}
 
