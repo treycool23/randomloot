@@ -5,7 +5,6 @@ import java.util.Set;
 
 import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.breakers.Attracting;
-import dev.marston.randomloot.loot.modifiers.breakers.Explode;
 import dev.marston.randomloot.loot.modifiers.breakers.Learning;
 import dev.marston.randomloot.loot.modifiers.holders.Effect;
 import dev.marston.randomloot.loot.modifiers.holders.Hasty;

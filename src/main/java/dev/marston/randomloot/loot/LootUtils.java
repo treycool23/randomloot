@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;

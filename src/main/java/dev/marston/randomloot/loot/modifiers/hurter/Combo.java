@@ -1,29 +1,20 @@
 package dev.marston.randomloot.loot.modifiers.hurter;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
 import dev.marston.randomloot.RandomLootMod;
-import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem;
 import dev.marston.randomloot.loot.LootItem.ToolType;
+import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

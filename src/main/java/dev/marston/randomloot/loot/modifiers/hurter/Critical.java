@@ -5,8 +5,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import dev.marston.randomloot.loot.LootItem;
-import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
+import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;

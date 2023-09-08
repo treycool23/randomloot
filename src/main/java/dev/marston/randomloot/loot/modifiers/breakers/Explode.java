@@ -4,21 +4,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
-import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
-import dev.marston.randomloot.loot.modifiers.users.TorchPlace;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
