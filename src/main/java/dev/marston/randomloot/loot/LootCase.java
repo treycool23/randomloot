@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
@@ -35,32 +36,46 @@ public class LootCase extends Item {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack lootCase = player.getItemInHand(hand);
-		lootCase.shrink(1); // removing case from inventory
-		
+
 		if (player instanceof ServerPlayer) {
 			ServerPlayer sPlayer = (ServerPlayer) player;
 			StatType<Item> itemUsed = Stats.ITEM_USED;
-			
+
 			sPlayer.getStats().increment(sPlayer, itemUsed.get(LootRegistry.CaseItem), 1);
 		}
-		
+
 		Modifier.TrackEntityParticle(level, player, ParticleTypes.CLOUD);
 
-		Thread thread = new Thread() {
-			public void run() {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				LootUtils.generateTool(player, level); // generate tool and give it to the player
-				
+		if (!level.isClientSide) {
+			RandomLootMod.LOGGER.info("Generating tool...");
+			boolean success = LootUtils.generateTool(player, level); // generate tool and give it to the player
+			if (success) {
+				RandomLootMod.LOGGER.info("tool generation complete.");
 			}
-		};
+//			Thread thread = new Thread() {
+//				public void run() {
+//					RandomLootMod.LOGGER.info("Starting tool generation thread...");
+//					try {
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						RandomLootMod.LOGGER.error(e.getStackTrace().toString());
+//					}
+//					boolean success = LootUtils.generateTool(player, level); // generate tool and give it to the player
+//					if (success) {
+//						RandomLootMod.LOGGER.info("tool generation complete.");
+//					}
+//				}
+//			};
+//
+//			thread.start();
+		}
 
-		thread.start();
+		player.awardStat(Stats.ITEM_USED.get(this));
+		if (!player.getAbilities().instabuild) {
+			lootCase.shrink(1);
+		}
 
-		return InteractionResultHolder.success(lootCase);
+		return InteractionResultHolder.sidedSuccess(lootCase, level.isClientSide());
 	}
 
 	@Override

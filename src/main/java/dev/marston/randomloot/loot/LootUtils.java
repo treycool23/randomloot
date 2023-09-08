@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import com.google.gson.JsonObject;
 
+import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
@@ -37,8 +37,11 @@ public class LootUtils {
 	private static int SWORD_COUNT = 47;
 
 	public static void addLoreLine(ListTag lore, String text, String color) {
-		JsonObject value = Json.createObjectBuilder().add("text", text).add("color", color).add("italic", false)
-				.build();
+		JsonObject value = new JsonObject();
+
+		value.addProperty("text", text);
+		value.addProperty("color", color);
+		value.addProperty("italic", false);
 
 		StringTag nbtName = StringTag.valueOf(value.toString());
 
@@ -46,9 +49,14 @@ public class LootUtils {
 	}
 
 	public static void setItemName(ItemStack stack, String name, String color) {
-		JsonObject value = Json.createObjectBuilder().add("text", name).add("color", color).add("italic", false)
-				.build();
+		JsonObject value = new JsonObject();
 
+		value.addProperty("text", name);
+		value.addProperty("color", color);
+		value.addProperty("italic", false);
+		
+
+		
 		StringTag nbtName = StringTag.valueOf(value.toString());
 
 		CompoundTag display = stack.getOrCreateTagElement("display");
@@ -74,22 +82,19 @@ public class LootUtils {
 
 	public static int getMaxXP(int level) {
 		int starting = 500;
-		 starting = 10;
 
 		int xp = (int) (starting * Math.pow(2, level));
 		return xp;
 	}
 
-	public static ItemStack levelUp(ItemStack item, LivingEntity holder ) {
+	public static ItemStack levelUp(ItemStack item, LivingEntity holder) {
 
 		float stats = getStats(item);
 		stats = stats * 1.1f;
 		setStats(item, stats);
-		
-		
-		
-		holder.level().playSound(null, holder.getX(), holder.getY(), holder.getZ(), SoundEvents.PLAYER_LEVELUP, holder.getSoundSource(), 1.0f, 1.0f);
-		
+
+		holder.level().playSound(null, holder.getX(), holder.getY(), holder.getZ(), SoundEvents.PLAYER_LEVELUP,
+				holder.getSoundSource(), 1.0f, 1.0f);
 
 		return item;
 	}
@@ -112,9 +117,6 @@ public class LootUtils {
 			item = levelUp(item, holder);
 		}
 
-		
-
-		
 		tag.putInt("level", level);
 		tag.putInt("xp", xp);
 
@@ -343,7 +345,9 @@ public class LootUtils {
 		}
 	}
 
-	public static void generateTool(Player player, Level level) {
+	public static boolean generateTool(Player player, Level level) {
+		RandomLootMod.LOGGER.info("creating tool with the LootUtils structure...");
+
 		ItemStack lootItem = new ItemStack(LootRegistry.ToolItem);
 
 		/**
@@ -359,12 +363,13 @@ public class LootUtils {
 		 * new ones have a clean XP slate so they can level faster again.
 		 */
 		int count = 0;
-		if (player instanceof ServerPlayer) {
-			ServerPlayer sPlayer = (ServerPlayer) player;
-			StatType<Item> itemUsed = Stats.ITEM_USED;
-
-			count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
+		if (level.isClientSide) {
+			RandomLootMod.LOGGER.info("won't run on client.");
+			return false;
 		}
+		ServerPlayer sPlayer = (ServerPlayer) player;
+		StatType<Item> itemUsed = Stats.ITEM_USED;
+		count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
 
 		float goodness = (float) Math.sqrt(count + 1); // keeping track of items stats through a "goodness" curve
 
@@ -412,18 +417,20 @@ public class LootUtils {
 
 		generateInitialTraits(lootItem, m, traits);
 
-		generateLore(lootItem, level, player);
+		generateLore(lootItem, level, sPlayer);
 
 		LootUtils.setTexture(lootItem, (int) (Math.random() * textureCount));
 
-		boolean added = player.addItem(lootItem);
+		RandomLootMod.LOGGER.info("adding item to inventory...");
+		boolean added = sPlayer.getInventory().add(lootItem);
 		if (!added) {
 			ItemEntity dropItem = new ItemEntity(EntityType.ITEM, level);
 			dropItem.setItem(lootItem);
-			dropItem.setPos(player.position());
+			dropItem.setPos(sPlayer.position());
 
 			level.addFreshEntity(dropItem);
 		}
+		return true;
 	}
 
 }
