@@ -40,9 +40,9 @@ public class ModifierRegistry {
 	public static Modifier CHARGING = register(new Charging());
 	public static Modifier COMBO = register(new Combo());
 	public static Modifier DRAINING = register(new Draining());
-	public static Modifier POISONOUS = register(new HurtEffect("Poisonous", "poison", 2, MobEffects.POISON));
-	public static Modifier WITHERING = register(new HurtEffect("Withering", "wither", 1, MobEffects.WITHER));
-	public static Modifier BLINDING = register(new HurtEffect("Blinding", "blinding", 3, MobEffects.BLINDNESS));
+	public static Modifier POISONOUS = register(new HurtEffect("Poisonous", "poison", 5, MobEffects.POISON));
+	public static Modifier WITHERING = register(new HurtEffect("Withering", "wither", 3, MobEffects.WITHER));
+	public static Modifier BLINDING = register(new HurtEffect("Blinding", "blinding", 4, MobEffects.BLINDNESS));
 
 	public static Modifier HASTY = register(new Hasty());
 	public static Modifier FILLING = register(new Effect("Filling", "filling", 2, MobEffects.SATURATION));

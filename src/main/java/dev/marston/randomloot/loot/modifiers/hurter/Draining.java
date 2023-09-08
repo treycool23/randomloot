@@ -101,7 +101,7 @@ public class Draining implements EntityHurtModifier{
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 		float damage = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
 		
-		hurter.heal(damage * 0.10f);
+		hurter.heal(damage * 0.25f);
 		
 	}
 }

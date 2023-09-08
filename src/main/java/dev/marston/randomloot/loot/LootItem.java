@@ -183,12 +183,12 @@ public class LootItem extends Item {
 	}
 
 	@Override
-	public boolean hurtEnemy(ItemStack itemstack, LivingEntity p_43279_, LivingEntity p_43280_) {
+	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 
 		ToolType type = LootUtils.getToolType(itemstack);
 
 		if (type == ToolType.AXE || type == ToolType.SWORD) {
-			LootUtils.addXp(itemstack, 1);
+			LootUtils.addXp(itemstack, hurter, 1);
 
 		}
 
@@ -198,11 +198,11 @@ public class LootItem extends Item {
 			if (mod instanceof EntityHurtModifier) {
 				EntityHurtModifier ehm = (EntityHurtModifier) mod;
 
-				ehm.hurtEnemy(itemstack, p_43279_, p_43280_);
+				ehm.hurtEnemy(itemstack, hurtee, hurter);
 			}
 		}
 
-		itemstack.hurtAndBreak(1, p_43280_, (p_43296_) -> {
+		itemstack.hurtAndBreak(1, hurter, (p_43296_) -> {
 			p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 		});
 		return true;
@@ -230,7 +230,7 @@ public class LootItem extends Item {
 				p_40992_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 			});
 			
-			LootUtils.addXp(stack, 1);
+			LootUtils.addXp(stack, player, 1);
 
 		}
 

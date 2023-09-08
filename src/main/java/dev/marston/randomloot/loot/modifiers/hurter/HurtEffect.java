@@ -111,7 +111,8 @@ public class HurtEffect implements EntityHurtModifier{
 
 	@Override
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
-		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, 0, false, false);	
+		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, 1, false, false);	
+		
 		
 		hurtee.addEffect(eff);
 		

@@ -17,9 +17,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -28,12 +30,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 public class LootUtils {
-	
+
 	private static int PICKAXE_COUNT = 18;
 	private static int AXE_COUNT = 12;
 	private static int SHOVEL_COUNT = 9;
 	private static int SWORD_COUNT = 47;
-
 
 	public static void addLoreLine(ListTag lore, String text, String color) {
 		JsonObject value = Json.createObjectBuilder().add("text", text).add("color", color).add("italic", false)
@@ -72,20 +73,28 @@ public class LootUtils {
 	}
 
 	public static int getMaxXP(int level) {
-		int xp = (int) (500 * Math.pow(2, level));
+		int starting = 500;
+		 starting = 10;
+
+		int xp = (int) (starting * Math.pow(2, level));
 		return xp;
 	}
-	
-	public static ItemStack levelUp(ItemStack item) {
-		
+
+	public static ItemStack levelUp(ItemStack item, LivingEntity holder ) {
+
 		float stats = getStats(item);
-		stats = stats * 1.05f;
+		stats = stats * 1.1f;
 		setStats(item, stats);
 		
+		
+		
+		holder.level().playSound(null, holder.getX(), holder.getY(), holder.getZ(), SoundEvents.PLAYER_LEVELUP, holder.getSoundSource(), 1.0f, 1.0f);
+		
+
 		return item;
 	}
 
-	public static ItemStack addXp(ItemStack item, int amount) {
+	public static ItemStack addXp(ItemStack item, LivingEntity holder, int amount) {
 
 		CompoundTag tag = item.getOrCreateTagElement("XP");
 
@@ -100,9 +109,12 @@ public class LootUtils {
 		while (xp >= max) {
 			xp = xp - max;
 			level++;
-			item = levelUp(item);
+			item = levelUp(item, holder);
 		}
 
+		
+
+		
 		tag.putInt("level", level);
 		tag.putInt("xp", xp);
 
@@ -161,7 +173,7 @@ public class LootUtils {
 			if (finalModifier == null) {
 				continue;
 			}
-			
+
 			tags.add(finalModifier);
 
 		}
@@ -350,7 +362,7 @@ public class LootUtils {
 		if (player instanceof ServerPlayer) {
 			ServerPlayer sPlayer = (ServerPlayer) player;
 			StatType<Item> itemUsed = Stats.ITEM_USED;
-			
+
 			count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
 		}
 
@@ -358,7 +370,6 @@ public class LootUtils {
 
 		int traits = (int) (Math.floor(goodness / 2.0f)); // how many traits the tool should be created with
 
-		
 		LootUtils.setStats(lootItem, goodness);
 
 		int toolType = (int) (Math.random() * 4);
@@ -379,8 +390,8 @@ public class LootUtils {
 			yield ToolType.PICKAXE;
 		}
 		};
-		
-		int textureCount  = switch (m) {
+
+		int textureCount = switch (m) {
 		case PICKAXE: {
 			yield PICKAXE_COUNT;
 		}
@@ -405,13 +416,12 @@ public class LootUtils {
 
 		LootUtils.setTexture(lootItem, (int) (Math.random() * textureCount));
 
-		
 		boolean added = player.addItem(lootItem);
 		if (!added) {
 			ItemEntity dropItem = new ItemEntity(EntityType.ITEM, level);
 			dropItem.setItem(lootItem);
 			dropItem.setPos(player.position());
-			
+
 			level.addFreshEntity(dropItem);
 		}
 	}
