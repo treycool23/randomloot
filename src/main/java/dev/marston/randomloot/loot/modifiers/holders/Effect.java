@@ -8,6 +8,7 @@ import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.HoldModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -80,7 +81,7 @@ public class Effect implements HoldModifier{
 
 	@Override
 	public String description() {
-		return "While holding the tool, get the " + effect.getDisplayName() + " effect.";
+		return "While holding the tool, get the " + I18n.get(effect.getDisplayName().getString()).toLowerCase() + " effect.";
 	}
 	
 	@Override

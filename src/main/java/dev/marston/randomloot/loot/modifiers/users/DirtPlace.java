@@ -261,7 +261,7 @@ public class DirtPlace implements UseModifier {
 
 	@Override
 	public String description() {
-		return "Right clicking on the top of a block with the tool in hand will place a torch and use " + this.damage
+		return "Right clicking on the top of a block with the tool in hand will place a dirt block and use " + this.damage
 				+ " durability points.";
 	}
 

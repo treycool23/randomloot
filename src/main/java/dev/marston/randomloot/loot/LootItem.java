@@ -33,9 +33,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -133,7 +136,8 @@ public class LootItem extends Item {
 		} else if (type == ToolType.SWORD) {
 			if (block.getBlock() == Blocks.COBWEB) {
 				return 15.0f;
-			}
+			} 
+			return 1.0f;
 		}else {
 			return 1.0f;
 		}
@@ -141,6 +145,17 @@ public class LootItem extends Item {
 		return block.is(blocks) ? getDigSpeed(stack, type) : 1.0F;
 	}
 
+	
+	@Override
+	public boolean isRepairable(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
+		return material.getItem().equals(Items.DIAMOND);
+	}
+	
 	@Override
 	public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
 
@@ -207,6 +222,33 @@ public class LootItem extends Item {
 		});
 		return true;
 	}
+	
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    { 
+		
+		if (enchantment.category.equals(EnchantmentCategory.BREAKABLE)) { // all these items are breakable so we can enchant them first!
+			return true;
+		}
+		
+		ToolType type = LootUtils.getToolType(stack);
+		if (enchantment.category.equals(EnchantmentCategory.DIGGER)) {
+			if (type == ToolType.AXE || type == ToolType.SHOVEL || type == ToolType.PICKAXE) {
+				return true;
+			}
+		}
+		
+		if (enchantment.category.equals(EnchantmentCategory.WEAPON)) {
+			if (type == ToolType.AXE || type == ToolType.SWORD) {
+				return true;
+			}
+		}
+		
+		
+		
+		
+        return enchantment.category.canEnchant(stack.getItem());
+    }
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level level, BlockState blockState, BlockPos pos, LivingEntity player) {

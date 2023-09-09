@@ -8,6 +8,7 @@ import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -79,7 +80,7 @@ public class HurtEffect implements EntityHurtModifier{
 
 	@Override
 	public String description() {
-		return "When attacking with tool, apply the " + effect.getDisplayName() + " effect to the target.";
+		return "When attacking with tool, apply the " + I18n.get(effect.getDisplayName().getString()).toLowerCase() + " effect to the target.";
 	}
 	
 	@Override
