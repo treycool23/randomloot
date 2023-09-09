@@ -6,6 +6,7 @@ import java.util.Set;
 import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.breakers.Attracting;
 import dev.marston.randomloot.loot.modifiers.breakers.Learning;
+import dev.marston.randomloot.loot.modifiers.breakers.Veiny;
 import dev.marston.randomloot.loot.modifiers.holders.Effect;
 import dev.marston.randomloot.loot.modifiers.holders.Hasty;
 import dev.marston.randomloot.loot.modifiers.holders.OreFinder;
@@ -32,6 +33,7 @@ public class ModifierRegistry {
 //	public static Modifier EXPLODE = register(new Explode()); // disabling exploding until we can remove it from config
 	public static Modifier LEARNING = register(new Learning());
 	public static Modifier ATTRACTING = register(new Attracting());
+	public static Modifier VEINY = register(new Veiny());
 
 	public static Modifier TORCH_PLACE = register(new TorchPlace());
 	public static Modifier DIRT_PLACE = register(new DirtPlace());
@@ -56,7 +58,7 @@ public class ModifierRegistry {
 	public static Modifier ORE_FINDER = register(new OreFinder());
 	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 
-	public static final Set<Modifier> BREAKERS = Set.of(/**EXPLODE,*/ LEARNING, ATTRACTING);
+	public static final Set<Modifier> BREAKERS = Set.of(/**EXPLODE,*/ LEARNING, ATTRACTING, VEINY);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE, FIRE_PLACE);
 	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS, WITHERING, BLINDING);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER);

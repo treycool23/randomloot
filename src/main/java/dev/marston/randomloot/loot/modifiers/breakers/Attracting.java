@@ -41,7 +41,6 @@ public class Attracting implements BlockBreakModifier {
 
 	@Override
 	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
-		RandomLootMod.LOGGER.info("Attracting items");
 
 		Level l = player.level();
 
