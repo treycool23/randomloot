@@ -38,8 +38,6 @@ public class RandomLootMod {
 	public static final Logger LOGGER = LogUtils.getLogger();
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
-	public static long Seed = 0;
-
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
 			.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -47,31 +45,32 @@ public class RandomLootMod {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::addCreative);
+		modEventBus.addListener(this::addCreative);
 
 		ModLootModifiers.register(modEventBus);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+		GenWiki.genWiki();
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
 		LOGGER.info("RandomLoot Common Setup");
 
 	}
-	
-	private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
-            event.accept(LootRegistry.CaseItem);
-    }
+
+	private void addCreative(BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+			event.accept(LootRegistry.CaseItem);
+	}
 
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {
 		LOGGER.info("Starting server with RandomLoot installed!");
 
-		Seed = event.getServer().getWorldData().worldGenOptions().seed();
+		Globals.Seed = event.getServer().getWorldData().worldGenOptions().seed();
 	}
 
 	@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

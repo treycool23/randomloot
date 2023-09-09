@@ -26,6 +26,9 @@ Holding Shift while hovering over tools will give you an expanded view on detail
 Holding Control (command on a mac) while hovering over tools will give you a description of every trait currently applied to the tool.
 ![tools with control information](https://raw.githubusercontent.com/TheMarstonConnell/randomloot/main/.github/assets/expanded_info.png)
 
+#### Tool Modifiers
+For a complete list of modifiers check out the [modifier list](https://github.com/TheMarstonConnell/randomloot/blob/main/MODIFIERS.md).
+
 ## Another Rewrite?
 The jump from 1.12 to 1.16 was one of the biggest changes to Forge & the Minecraft codebase making a complete rewrite of the mod very welcome. However, the 1.16 to 1.20 is again, a massive change and I'm overall dissatisfied with the 1.16 version of the mods codebase and sloppy planning. As such, 1.20 is a complete rewrite of Random Loot to make the mod feel more cohesive and less janky.
 

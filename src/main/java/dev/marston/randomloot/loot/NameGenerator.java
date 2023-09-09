@@ -2,6 +2,7 @@ package dev.marston.randomloot.loot;
 
 import java.util.Random;
 
+import dev.marston.randomloot.Globals;
 import dev.marston.randomloot.RandomLootMod;
 
 public class NameGenerator {
@@ -181,7 +182,7 @@ public class NameGenerator {
 			list = HotNames;
 		}
 		
-		Random generator = new Random(RandomLootMod.Seed);
+		Random generator = new Random(Globals.Seed);
 		
 		String adj = list[generator.nextInt(list.length)];
 		return adj;
