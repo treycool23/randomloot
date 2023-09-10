@@ -19,6 +19,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -94,6 +95,10 @@ public class Veiny implements BlockBreakModifier {
 
 		ServerPlayer player = (ServerPlayer) p;
 
+		if (!player.isCrouching()) {
+			return;
+		}
+
 		Level l = player.level();
 
 		if (l.isClientSide) {
@@ -101,12 +106,6 @@ public class Veiny implements BlockBreakModifier {
 		}
 
 		Block b = l.getBlockState(pos).getBlock();
-		
-		String blockName = b.getName().getString();
-		
-		if(!blockName.toLowerCase().contains("ore")) {
-			return;
-		}
 
 		Set<BlockPos> toBreak = new HashSet<BlockPos>();
 
@@ -116,6 +115,13 @@ public class Veiny implements BlockBreakModifier {
 			BlockPos blockPos = iterator.next();
 
 			removeBlock(itemstack, blockPos, player, l, l.getBlockState(blockPos));
+			
+			itemstack.hurtAndBreak(1, player, (entity) -> {
+				
+				entity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+	            });
+			
+
 
 		}
 	}
@@ -154,8 +160,8 @@ public class Veiny implements BlockBreakModifier {
 
 	@Override
 	public String description() {
-		return "Breaking any block will cause all blocks of the same type adjacent to it to break up to " + ((int) power)
-				+ " in each direction.";
+		return "Breaking any block while crouching will cause all blocks of the same type adjacent to it to break up to "
+				+ ((int) power) + " in each direction.";
 	}
 
 	@Override
