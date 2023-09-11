@@ -3,7 +3,10 @@ package dev.marston.randomloot;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -22,7 +25,12 @@ public class GenWiki {
 	}
 	
 	private static void writeMods(Set<Modifier> mods, FileWriter f) throws IOException {
-		for (Iterator<Modifier> iterator = mods.iterator(); iterator.hasNext();) {
+		List<Modifier> sortedList = new ArrayList<>(mods);
+		sortedList.sort((o1, o2) -> {
+			return o1.tagName().compareTo(o2.name());
+		});
+		
+		for (Iterator<Modifier> iterator = sortedList.iterator(); iterator.hasNext();) {
 			Modifier modifier = iterator.next();
 			writeMod(modifier, f);
 		}

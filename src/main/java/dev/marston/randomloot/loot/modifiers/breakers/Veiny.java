@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import dev.marston.randomloot.RandomLootMod;
+import dev.marston.randomloot.loot.LootItem;
+import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -104,8 +106,18 @@ public class Veiny implements BlockBreakModifier {
 		if (l.isClientSide) {
 			return;
 		}
+		
+		BlockState state = l.getBlockState(pos);
+		
+		LootItem li = (LootItem) itemstack.getItem();
+		
+		
+		
+		if (!li.isCorrectToolForDrops(itemstack, state)) {
+			return;
+		}
 
-		Block b = l.getBlockState(pos).getBlock();
+		Block b = state.getBlock();
 
 		Set<BlockPos> toBreak = new HashSet<BlockPos>();
 
