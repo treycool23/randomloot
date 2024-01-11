@@ -27,7 +27,7 @@ Holding Control (command on a mac) while hovering over tools will give you a des
 ![tools with control information](https://raw.githubusercontent.com/TheMarstonConnell/randomloot/main/.github/assets/expanded_info.png)
 
 ### Trait Addition/Subtraction Template
-Trait Addition/Subtraction Templates are items that allow you to add and remove traits from your tools. To do this, place either an addition template or subtraction template inside a Smithing Table, to add or remove a trait. Then place in your tool and the corresponding item listed in the [Modifiers](Modifiers.md) list. Then You can preview what will happen to your tool.
+Trait Addition/Subtraction Templates are items that allow you to add and remove traits from your tools. To do this, place either an addition template or subtraction template inside a Smithing Table, to add or remove a trait. Then place in your tool and the corresponding item listed in the [Modifiers](MODIFIERS.md) list. Then You can preview what will happen to your tool.
 
 You can find Trait Addition Templates in dungeon chests similarly to loot cases. To get Subtraction Templates, right click with an addition template in your hand. They can be swapped back and forth as many times as you'd like but once you use them they're gone.
 
