@@ -249,6 +249,15 @@ public class LootUtils {
 
 		return index;
 	}
+	
+
+	public static int getTextureIndex(ItemStack stack) {
+		CompoundTag cosmeticTag = stack.getOrCreateTagElement("cosmetics");
+
+		int texture = cosmeticTag.getInt("texture");
+
+		return texture;
+	}
 
 	private static void generateLore(ItemStack lootItem, Level level, Player player) {
 		Holder<Biome> biome = level.getBiome(player.blockPosition());
@@ -343,6 +352,43 @@ public class LootUtils {
 		for (int i = 0; i < count; i++) {
 			generateNewTrait(stack, getToolType(stack));
 		}
+	}
+	
+	public static int getToolMaxTextures(ItemStack stack) {
+		ToolType m = getToolType(stack);
+		
+		return switch (m) {
+		case PICKAXE: {
+			yield PICKAXE_COUNT;
+		}
+		case AXE: {
+			yield AXE_COUNT;
+		}
+		case SHOVEL: {
+			yield SHOVEL_COUNT;
+		}
+		case SWORD: {
+			yield SWORD_COUNT;
+		}
+		default:
+			yield 0;
+		};
+	
+	}
+	
+	public static int addToolTextures(ItemStack stack, int count) {
+		int max = getToolMaxTextures(stack);
+		
+		int current = getTextureIndex(stack);
+	
+		int newTexture = (current + count) % max;
+		
+		return newTexture;
+		
+	}
+	
+	public static void addTexture(ItemStack stack, int count) {
+		setTexture(stack, addToolTextures(stack, count));
 	}
 
 	public static boolean generateTool(Player player, Level level) {

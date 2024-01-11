@@ -8,12 +8,18 @@ import com.mojang.logging.LogUtils;
 
 import dev.marston.randomloot.loot.LootRegistry;
 import dev.marston.randomloot.loot.LootUtils;
+import dev.marston.randomloot.recipes.Recipies;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.FireworkStarRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,20 +46,43 @@ public class RandomLootMod {
 
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
 			.create(Registries.CREATIVE_MODE_TAB, MODID);
+	
+	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
+			.create(Registries.RECIPE_SERIALIZER, MODID);
+	
+    static RandomLootMod INSTANCE;
 
+	
 	public RandomLootMod() {
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		if (INSTANCE != null) {
+            throw new IllegalStateException();
+        }
+        INSTANCE = this;
+		
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		modEventBus.addListener(this::commonSetup);
-		modEventBus.addListener(this::addCreative);
+		
 
-		ModLootModifiers.register(modEventBus);
+		bus.addListener((RegisterEvent event) -> {
+			if (!event.getRegistryKey().equals(Registries.BLOCK)) {
+                return;
+            }
+			Recipies.init(ForgeRegistries.RECIPE_SERIALIZERS);
+		});
+		
 
+		bus.addListener(this::commonSetup);
+		bus.addListener(this::addCreative);
+		
 		MinecraftForge.EVENT_BUS.register(this);
+		
+		ModLootModifiers.register(bus);
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
 		GenWiki.genWiki();
+		
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
@@ -105,6 +134,7 @@ public class RandomLootMod {
 			});
 
 		}
+		
 
 	}
 }

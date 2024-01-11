@@ -145,6 +145,10 @@ public class LootItem extends Item {
 		return block.is(blocks) ? getDigSpeed(stack, type) : 1.0F;
 	}
 
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+		return true;
+	}
 	
 	@Override
 	public boolean isRepairable(ItemStack stack) {

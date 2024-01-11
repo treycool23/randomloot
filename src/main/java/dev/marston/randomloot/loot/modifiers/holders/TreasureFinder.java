@@ -172,6 +172,8 @@ public class TreasureFinder implements HoldModifier{
 		}
 		
 		int size = 10;
+		
+		
 		for(int i = -size; i < size; i ++) {
 			for(int j = -size; j < size; j ++) {
 				for(int k = -size; k < size; k ++) {
