@@ -27,8 +27,9 @@ public class GenWiki {
 		String tag = m.tagName();
 		String recipe = readRecipe(tag);
 		write("### " + m.name(), f);
-		write("id: `" + tag + "` | crafting: `" + recipe + "`", f);
-		write(m.description(), f);
+		write("**id:** `" + tag + "` | **crafting:** `" + recipe + "`", f);
+		write("", f);
+		write("**Decription:** " + m.description(), f);
 	}
 
 	private static void writeMods(Set<Modifier> mods, FileWriter f) throws IOException {
