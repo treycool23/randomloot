@@ -9,7 +9,6 @@ import java.util.Set;
 import com.google.gson.JsonObject;
 
 import dev.marston.randomloot.Config;
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
@@ -409,7 +408,6 @@ public class LootUtils {
 	}
 
 	public static boolean generateTool(Player player, Level level) {
-		RandomLootMod.LOGGER.info("creating tool with the LootUtils structure...");
 
 		ItemStack lootItem = new ItemStack(LootRegistry.ToolItem);
 
@@ -427,7 +425,6 @@ public class LootUtils {
 		 */
 		int count = 0;
 		if (level.isClientSide) {
-			RandomLootMod.LOGGER.info("won't run on client.");
 			return false;
 		}
 		ServerPlayer sPlayer = (ServerPlayer) player;
@@ -485,7 +482,6 @@ public class LootUtils {
 
 		LootUtils.setTexture(lootItem, (int) (Math.random() * textureCount));
 
-		RandomLootMod.LOGGER.info("adding item to inventory...");
 		boolean added = sPlayer.getInventory().add(lootItem);
 		if (!added) {
 			ItemEntity dropItem = new ItemEntity(EntityType.ITEM, level);

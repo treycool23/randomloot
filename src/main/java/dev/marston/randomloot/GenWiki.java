@@ -70,7 +70,6 @@ public class GenWiki {
 	public static void genWiki() {
 
 		String isProd = System.getenv("RL_PROD").strip();
-		RandomLootMod.LOGGER.info("RL_PROD: " + isProd);
 
 		if (isProd.contains("false")) {
 			RandomLootMod.LOGGER.info("Creating wiki...");

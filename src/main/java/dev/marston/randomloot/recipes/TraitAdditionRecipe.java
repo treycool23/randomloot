@@ -1,9 +1,9 @@
 package dev.marston.randomloot.recipes;
 
 import java.nio.charset.Charset;
+
 import com.google.gson.JsonObject;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootRegistry;
 import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -106,7 +106,6 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 	}
 
 	public static RecipeSerializer<?> getMySerializer() {
-		RandomLootMod.LOGGER.info("Getting TextureChange Serializer!!!");
 		if (SERIALIZER == null) {
 			SERIALIZER = new Serializer();
 		}
@@ -122,9 +121,6 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 
 			TraitAdditionRecipe t = new TraitAdditionRecipe(id, ingredient, trait);
 
-			RandomLootMod.LOGGER.info(t.trait);
-			RandomLootMod.LOGGER.info(t.item.toString());
-
 			return t;
 		}
 
@@ -135,9 +131,6 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 			String trait = buffer.readCharSequence(l, Charset.forName("utf-8")).toString();
 
 			TraitAdditionRecipe t = new TraitAdditionRecipe(id, ingredient, trait);
-
-			RandomLootMod.LOGGER.info(t.trait);
-			RandomLootMod.LOGGER.info(t.item.toString());
 
 			return t;
 		}

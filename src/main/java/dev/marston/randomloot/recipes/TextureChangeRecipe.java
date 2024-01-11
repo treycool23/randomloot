@@ -1,6 +1,5 @@
 package dev.marston.randomloot.recipes;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootRegistry;
 import dev.marston.randomloot.loot.LootUtils;
 import net.minecraft.core.RegistryAccess;
@@ -33,7 +32,6 @@ public class TextureChangeRecipe extends CustomRecipe {
 	}
 
 	private ItemStack getOutput(Container inv) {
-		RandomLootMod.LOGGER.info("Checking recipe output!");
 		int size = inv.getContainerSize();
 
 		int modCount = 0;
@@ -42,16 +40,13 @@ public class TextureChangeRecipe extends CustomRecipe {
 		for (int i = 0; i < size; i++) {
 			ItemStack item = inv.getItem(i);
 			if (item.isEmpty()) { // skip empty items
-				RandomLootMod.LOGGER.info("skipping empty item");
 				continue;
 			}
 
 			if (ITEM == item.getItem()) {
 				if (toolItem != null) {
-					RandomLootMod.LOGGER.info("can't have two tools");
 					return ItemStack.EMPTY;
 				}
-				RandomLootMod.LOGGER.info("found our tool!");
 				toolItem = item.copy();
 				continue;
 			}
@@ -63,12 +58,10 @@ public class TextureChangeRecipe extends CustomRecipe {
 		}
 
 		if (toolItem == null) {
-			RandomLootMod.LOGGER.info("needs to have at least one tool");
 			return ItemStack.EMPTY;
 		}
 
 		if (modCount == 0) {
-			RandomLootMod.LOGGER.info("no modifiers");
 			return ItemStack.EMPTY;
 		}
 
@@ -94,7 +87,6 @@ public class TextureChangeRecipe extends CustomRecipe {
 	}
 
 	public static RecipeSerializer<?> getMySerializer() {
-		RandomLootMod.LOGGER.info("Getting TextureChange Serializer!!!");
 		if (SERIALIZER == null) {
 			SERIALIZER = new SimpleCraftingRecipeSerializer<TextureChangeRecipe>(
 					(name, category) -> new TextureChangeRecipe(name, category));

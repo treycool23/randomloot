@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
@@ -47,27 +46,7 @@ public class LootCase extends Item {
 		Modifier.TrackEntityParticle(level, player, ParticleTypes.CLOUD);
 
 		if (!level.isClientSide) {
-			RandomLootMod.LOGGER.info("Generating tool...");
-			boolean success = LootUtils.generateTool(player, level); // generate tool and give it to the player
-			if (success) {
-				RandomLootMod.LOGGER.info("tool generation complete.");
-			}
-//			Thread thread = new Thread() {
-//				public void run() {
-//					RandomLootMod.LOGGER.info("Starting tool generation thread...");
-//					try {
-//						Thread.sleep(100);
-//					} catch (InterruptedException e) {
-//						RandomLootMod.LOGGER.error(e.getStackTrace().toString());
-//					}
-//					boolean success = LootUtils.generateTool(player, level); // generate tool and give it to the player
-//					if (success) {
-//						RandomLootMod.LOGGER.info("tool generation complete.");
-//					}
-//				}
-//			};
-//
-//			thread.start();
+			LootUtils.generateTool(player, level); // generate tool and give it to the player
 		}
 
 		player.awardStat(Stats.ITEM_USED.get(this));

@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import dev.marston.randomloot.Config;
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.HoldModifier;
@@ -258,19 +257,16 @@ public class LootItem extends Item {
 	@Override
 	public boolean mineBlock(ItemStack stack, Level level, BlockState blockState, BlockPos pos, LivingEntity player) {
 		if (!level.isClientSide && blockState.getDestroySpeed(level, pos) != 0.0F) {
-			RandomLootMod.LOGGER.info("breaking block!");
 
 			List<Modifier> mods = LootUtils.getModifiers(stack);
 
 			for (Modifier mod : mods) {
-				RandomLootMod.LOGGER.info("testing for " + mod.name());
 
 				if (mod instanceof BlockBreakModifier) {
 					if (!Config.traitEnabled(mod.tagName())) {
 						continue;
 					}
 					BlockBreakModifier bbm = (BlockBreakModifier) mod;
-					RandomLootMod.LOGGER.info("running " + bbm.name());
 
 					bbm.startBreak(stack, pos, player);
 				}

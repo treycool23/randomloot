@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -56,7 +55,6 @@ public class Attracting implements BlockBreakModifier {
 				List<Entity> items = l.getEntities(null, box);
 
 				for (Entity entity : items) {
-					RandomLootMod.LOGGER.info("Entity: " + entity.getDisplayName());
 
 					if (entity.getType() == EntityType.ITEM) {
 						entity.setPos(player.position());

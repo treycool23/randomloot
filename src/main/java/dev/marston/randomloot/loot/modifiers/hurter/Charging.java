@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
@@ -135,7 +134,6 @@ public class Charging implements EntityHurtModifier {
 		Level level = hurtee.level();
 
 		long time = level.getGameTime();
-		RandomLootMod.LOGGER.info("game time: " + time);
 
 		if (getCharge(level) >= 1.0f) {
 			LightningBolt lb = new LightningBolt(EntityType.LIGHTNING_BOLT, level);
