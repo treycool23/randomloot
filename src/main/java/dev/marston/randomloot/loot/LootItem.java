@@ -263,9 +263,6 @@ public class LootItem extends Item {
 			for (Modifier mod : mods) {
 
 				if (mod instanceof BlockBreakModifier) {
-					if (!Config.traitEnabled(mod.tagName())) {
-						continue;
-					}
 					BlockBreakModifier bbm = (BlockBreakModifier) mod;
 
 					bbm.startBreak(stack, pos, player);

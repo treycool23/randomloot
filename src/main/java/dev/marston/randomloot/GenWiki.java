@@ -25,7 +25,12 @@ public class GenWiki {
 
 	private static void writeMod(Modifier m, FileWriter f) throws IOException {
 		String tag = m.tagName();
-		String recipe = readRecipe(tag);
+		String recipe = "n/a";
+		try {
+			recipe = readRecipe(tag);
+		} catch (Exception e) {
+			RandomLootMod.LOGGER.warn("failed to find recipe for " + tag + ".");
+		}
 		write("### " + m.name(), f);
 		write("**id:** `" + tag + "` | **crafting:** `" + recipe + "`", f);
 		write("", f);
