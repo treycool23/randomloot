@@ -60,3 +60,4 @@ jobs:
             project_id: "301631"
             display_name: "Random Loot 2 - ${{ steps.get_version.outputs.VERSION }}"
             release_type: ${{ steps.release_type.outputs.RELEASE_TYPE }}
+            changelog: "# Change Log\n\nClick [here](https://github.com/TheMarstonConnell/randomloot/releases/tag/${{ steps.get_version.outputs.VERSION }}) for full list of changes."
