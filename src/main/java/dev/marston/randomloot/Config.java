@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
-
 @Mod.EventBusSubscriber(modid = RandomLootMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
 	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -24,12 +23,12 @@ public class Config {
 
 	private static final ForgeConfigSpec.DoubleValue MOD_CHANCE = BUILDER
 			.comment("chance to find a modifier template in a chest.").defineInRange("modChance", 0.15, 0.0, 1.0);
-	
+
 	private static final ForgeConfigSpec.DoubleValue GOODNESS = BUILDER.comment("rate of tool improvement per player")
 			.defineInRange("goodness_rate", 1.0, 0.01, 10.0);
-	
+
 	static final ForgeConfigSpec SPEC = build();
-	
+
 	public static ForgeConfigSpec build() {
 		init();
 		return BUILDER.build();
@@ -43,7 +42,6 @@ public class Config {
 	private static Map<String, Boolean> ModsEnabled;
 
 	public static void init() {
-		
 
 		MODIFIERS_ENABLED = new HashMap<String, ForgeConfigSpec.BooleanValue>();
 
@@ -60,7 +58,7 @@ public class Config {
 		return obj instanceof final String itemName
 				&& ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
 	}
-	
+
 	public static boolean traitEnabled(String tagName) {
 		return ModsEnabled.get(tagName);
 	}

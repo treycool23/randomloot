@@ -1,13 +1,18 @@
 package dev.marston.randomloot;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
@@ -19,8 +24,10 @@ public class GenWiki {
 	}
 
 	private static void writeMod(Modifier m, FileWriter f) throws IOException {
+		String tag = m.tagName();
+		String recipe = readRecipe(tag);
 		write("### " + m.name(), f);
-		write("id: `" + m.tagName() + "`", f);
+		write("id: `" + tag + "` | crafting: `" + recipe + "`", f);
 		write(m.description(), f);
 	}
 
@@ -75,6 +82,25 @@ public class GenWiki {
 				e.printStackTrace();
 			}
 		}
+
+	}
+
+	public static String readRecipe(String trait) throws FileNotFoundException {
+		FileReader reader = new FileReader(
+				"../src/main/resources/data/randomloot/recipes/special/trait_" + trait + ".json");
+		Gson gson = new Gson();
+		BufferedReader bufferedReader = new BufferedReader(reader);
+
+		JsonObject obj;
+		obj = gson.fromJson(bufferedReader, JsonObject.class);
+
+		JsonElement item = obj.get("item");
+
+		JsonObject itemObj = item.getAsJsonObject();
+
+		String itemName = itemObj.get("item").getAsString();
+
+		return itemName;
 
 	}
 
