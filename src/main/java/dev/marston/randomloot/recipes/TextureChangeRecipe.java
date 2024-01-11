@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 public class TextureChangeRecipe extends CustomRecipe {
 	public static SimpleCraftingRecipeSerializer<TextureChangeRecipe> SERIALIZER = null;
 
-	private static final Ingredient CHANGE_TEXTURE_INGREDIENT = Ingredient.of(Items.AMETHYST_SHARD); 
+	private static final Ingredient CHANGE_TEXTURE_INGREDIENT = Ingredient.of(Items.AMETHYST_SHARD);
 	private static final Item ITEM = LootRegistry.ToolItem;
 
 	public TextureChangeRecipe(ResourceLocation name, CraftingBookCategory cat) {
@@ -38,14 +38,14 @@ public class TextureChangeRecipe extends CustomRecipe {
 
 		int modCount = 0;
 		ItemStack toolItem = null;
-		
-		for(int i = 0; i < size; i ++) {
+
+		for (int i = 0; i < size; i++) {
 			ItemStack item = inv.getItem(i);
 			if (item.isEmpty()) { // skip empty items
 				RandomLootMod.LOGGER.info("skipping empty item");
 				continue;
 			}
-			
+
 			if (ITEM == item.getItem()) {
 				if (toolItem != null) {
 					RandomLootMod.LOGGER.info("can't have two tools");
@@ -55,28 +55,27 @@ public class TextureChangeRecipe extends CustomRecipe {
 				toolItem = item.copy();
 				continue;
 			}
-			
+
 			if (CHANGE_TEXTURE_INGREDIENT.test(item)) {
-				modCount ++;
+				modCount++;
 			}
-			
-			
+
 		}
-		
+
 		if (toolItem == null) {
 			RandomLootMod.LOGGER.info("needs to have at least one tool");
 			return ItemStack.EMPTY;
 		}
-		
-		if (modCount == 0 ) {
+
+		if (modCount == 0) {
 			RandomLootMod.LOGGER.info("no modifiers");
 			return ItemStack.EMPTY;
 		}
-		
+
 		LootUtils.addTexture(toolItem, modCount);
-		
+
 		return toolItem;
-		
+
 	}
 
 	@Override
@@ -88,8 +87,6 @@ public class TextureChangeRecipe extends CustomRecipe {
 	public boolean canCraftInDimensions(int width, int height) {
 		return false;
 	}
-
-	
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {

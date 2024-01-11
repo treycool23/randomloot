@@ -2,7 +2,7 @@
   "type": "randomloot:trait_change",
   "item": {
     "count": 1,
-    "item": "minecraft:poisonous_potato"
+    "item": "minecraft:wither_skeleton_skull"
   },
-  "trait": "poison"
+  "trait": "necrotic"
 }

@@ -7,6 +7,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import dev.marston.randomloot.loot.LootRegistry;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -37,21 +38,26 @@ public class CaseModifier extends LootModifier {
 	@Override
 	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot,
 			LootContext context) {
-		
-		String path = context.getQueriedLootTableId().getPath() ;
-		
+
+		String path = context.getQueriedLootTableId().getPath();
 
 		if (!path.contains("chests")) {
 			return generatedLoot;
 		}
-		
-		
-		double chance = Config.CaseChance;
-		
+
+		double chance;
+		if (item == LootRegistry.CaseItem) {
+			chance = Config.CaseChance;
+		} else if (item == LootRegistry.ModAdd) {
+			chance = Config.ModChance;
+		} else {
+			return generatedLoot;
+		}
+
 		if (context.getRandom().nextDouble() < chance) {
 			generatedLoot.add(new ItemStack(item));
 		}
-		
+
 		return generatedLoot;
 	}
 }

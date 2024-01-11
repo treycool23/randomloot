@@ -20,14 +20,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Charging implements EntityHurtModifier{
+public class Charging implements EntityHurtModifier {
 	private String name;
 	private int points;
 	private final static String POINTS = "points";
 	private long charged;
 	private final static String CHARGED = "charged";
 
-	public Charging(String name, int points, long charged ) {
+	public Charging(String name, int points, long charged) {
 		this.name = name;
 		this.points = points;
 		this.charged = charged;
@@ -43,7 +43,6 @@ public class Charging implements EntityHurtModifier{
 		return new Charging();
 	}
 
-	
 	@Override
 	public CompoundTag toNBT() {
 
@@ -77,7 +76,8 @@ public class Charging implements EntityHurtModifier{
 
 	@Override
 	public String description() {
-		return "After " + this.points + " seconds, hitting and enemy will summon a lightning bolt and empty the charge meter.";
+		return "After " + this.points
+				+ " seconds, hitting and enemy will summon a lightning bolt and empty the charge meter.";
 	}
 
 	@Override
@@ -87,30 +87,30 @@ public class Charging implements EntityHurtModifier{
 		list.add(comp);
 
 	}
-	
+
 	private float getCharge(Level level) {
 		if (level != null) {
 			long time = level.getGameTime();
-			
+
 			long diff = time - charged;
-			
+
 			float rate = (float) (diff) / (float) (points * 20);
 			if (rate > 1.0f) {
 				rate = 1.0f;
 			}
-			
+
 			return rate;
 		}
-		
+
 		return 0.0f;
 	}
 
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
-		
+
 		if (level != null) {
 			float charge = getCharge(level);
-			
+
 			String perc = String.format("%.0f%% Charged", charge * 100.0f);
 
 			return Modifier.makeComp(perc, ChatFormatting.GREEN);
@@ -129,34 +129,27 @@ public class Charging implements EntityHurtModifier{
 		return type.equals(ToolType.SWORD) || type.equals(ToolType.AXE);
 	}
 
-
-
 	@Override
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
-		
+
 		Level level = hurtee.level();
-		
+
 		long time = level.getGameTime();
 		RandomLootMod.LOGGER.info("game time: " + time);
-		
+
 		if (getCharge(level) >= 1.0f) {
 			LightningBolt lb = new LightningBolt(EntityType.LIGHTNING_BOLT, level);
 			lb.setPos(hurtee.position());
 			if (hurter instanceof ServerPlayer) {
 				lb.setCause((ServerPlayer) hurter);
 			}
-			
+
 			level.addFreshEntity(lb);
-			
+
 			this.charged = time;
 			LootUtils.addModifier(itemstack, this);
 		}
-		
-		
-		
-		
-		
-	}
 
+	}
 
 }

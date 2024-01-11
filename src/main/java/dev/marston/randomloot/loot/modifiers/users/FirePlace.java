@@ -34,31 +34,30 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-public class FirePlace implements UseModifier{
+public class FirePlace implements UseModifier {
 	private String name;
 	private int damage;
 	private static final String DAMAGE = "DAMAGE";
-	
-	
+
 	public FirePlace(String name, int damage) {
 		this.name = name;
 		this.damage = damage;
 	}
-	
+
 	public FirePlace() {
 		this.name = "Fire Starter";
 		this.damage = 2;
 	}
-	
+
 	public Modifier clone() {
 		return new FirePlace();
 	}
 
 	@Override
 	public CompoundTag toNBT() {
-		
+
 		CompoundTag tag = new CompoundTag();
-				
+
 		tag.putString(NAME, name);
 		tag.putInt(DAMAGE, damage);
 
@@ -84,83 +83,83 @@ public class FirePlace implements UseModifier{
 	public String color() {
 		return ChatFormatting.RED.getName();
 	}
-	
+
 	private InteractionResult flintNSteel(UseOnContext ctx) {
 		Player player = ctx.getPlayer();
-	      Level level = ctx.getLevel();
-	      BlockPos blockpos = ctx.getClickedPos();
-	      BlockState blockstate = level.getBlockState(blockpos);
-	      if (!CampfireBlock.canLight(blockstate) && !CandleBlock.canLight(blockstate) && !CandleCakeBlock.canLight(blockstate)) {
-	         BlockPos blockpos1 = blockpos.relative(ctx.getClickedFace());
-	         if (BaseFireBlock.canBePlacedAt(level, blockpos1, ctx.getHorizontalDirection())) {
-	            level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
-	            BlockState blockstate1 = BaseFireBlock.getState(level, blockpos1);
-	            level.setBlock(blockpos1, blockstate1, 11);
-	            level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
-	            ItemStack itemstack = ctx.getItemInHand();
-	            if (player instanceof ServerPlayer) {
-	               CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, blockpos1, itemstack);
-	               ctx.getItemInHand().hurtAndBreak(this.damage, ctx.getPlayer(), (event) -> {
-	       			event.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-	                });
-	            }
+		Level level = ctx.getLevel();
+		BlockPos blockpos = ctx.getClickedPos();
+		BlockState blockstate = level.getBlockState(blockpos);
+		if (!CampfireBlock.canLight(blockstate) && !CandleBlock.canLight(blockstate)
+				&& !CandleCakeBlock.canLight(blockstate)) {
+			BlockPos blockpos1 = blockpos.relative(ctx.getClickedFace());
+			if (BaseFireBlock.canBePlacedAt(level, blockpos1, ctx.getHorizontalDirection())) {
+				level.playSound(player, blockpos1, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F,
+						level.getRandom().nextFloat() * 0.4F + 0.8F);
+				BlockState blockstate1 = BaseFireBlock.getState(level, blockpos1);
+				level.setBlock(blockpos1, blockstate1, 11);
+				level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
+				ItemStack itemstack = ctx.getItemInHand();
+				if (player instanceof ServerPlayer) {
+					CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemstack);
+					ctx.getItemInHand().hurtAndBreak(this.damage, ctx.getPlayer(), (event) -> {
+						event.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+					});
+				}
 
-	            return InteractionResult.sidedSuccess(level.isClientSide());
-	         } else {
-	            return InteractionResult.FAIL;
-	         }
-	      } else {
-	         level.playSound(player, blockpos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
-	         level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
-	         level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockpos);
-	         if (player != null) {
-	        	 ctx.getItemInHand().hurtAndBreak(1, player, (p_41303_) -> {
-	               p_41303_.broadcastBreakEvent(ctx.getHand());
-	            });
-	         }
+				return InteractionResult.sidedSuccess(level.isClientSide());
+			} else {
+				return InteractionResult.FAIL;
+			}
+		} else {
+			level.playSound(player, blockpos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F,
+					level.getRandom().nextFloat() * 0.4F + 0.8F);
+			level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+			level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockpos);
+			if (player != null) {
+				ctx.getItemInHand().hurtAndBreak(1, player, (p_41303_) -> {
+					p_41303_.broadcastBreakEvent(ctx.getHand());
+				});
+			}
 
-	         return InteractionResult.sidedSuccess(level.isClientSide());
-	      }
+			return InteractionResult.sidedSuccess(level.isClientSide());
+		}
 	}
 
 	@Override
 	public void use(UseOnContext ctx) {
-		
-		
+
 		if (!ctx.getPlayer().isCrouching()) {
 			return;
 		}
-		
+
 		flintNSteel(ctx);
-		
+
 	}
 
 	@Override
 	public String description() {
-		return "Right clicking on the top of a block while crouching with the tool in hand will start a fire and use " + this.damage + " durability points.";
+		return "Right clicking on the top of a block while crouching with the tool in hand will start a fire and use "
+				+ this.damage + " durability points.";
 	}
 
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
-		
+
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
 		list.add(comp);
 
-		
-		
 	}
-	
+
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return null;
 	}
-	
+
 	@Override
 	public boolean compatible(Modifier mod) {
 		return !ModifierRegistry.USERS.contains(mod);
 	}
-	
 
 	@Override
 	public boolean forTool(ToolType type) {

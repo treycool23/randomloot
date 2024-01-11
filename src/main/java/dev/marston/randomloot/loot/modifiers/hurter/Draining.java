@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Draining implements EntityHurtModifier{
+public class Draining implements EntityHurtModifier {
 	private String name;
 	private int points;
 	private final static String POINTS = "points";
@@ -36,7 +36,6 @@ public class Draining implements EntityHurtModifier{
 		return new Draining();
 	}
 
-	
 	@Override
 	public CompoundTag toNBT() {
 
@@ -100,8 +99,8 @@ public class Draining implements EntityHurtModifier{
 	@Override
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 		float damage = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
-		
+
 		hurter.heal(damage * 0.25f);
-		
+
 	}
 }

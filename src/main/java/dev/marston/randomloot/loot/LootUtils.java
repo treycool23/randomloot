@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.google.gson.JsonObject;
 
+import dev.marston.randomloot.Config;
 import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -54,9 +55,7 @@ public class LootUtils {
 		value.addProperty("text", name);
 		value.addProperty("color", color);
 		value.addProperty("italic", false);
-		
 
-		
 		StringTag nbtName = StringTag.valueOf(value.toString());
 
 		CompoundTag display = stack.getOrCreateTagElement("display");
@@ -175,6 +174,9 @@ public class LootUtils {
 			if (finalModifier == null) {
 				continue;
 			}
+			if (!Config.traitEnabled(finalModifier.tagName())) {
+				continue;
+			}
 
 			tags.add(finalModifier);
 
@@ -189,6 +191,18 @@ public class LootUtils {
 
 		CompoundTag newTag = mod.toNBT();
 		modifiers.put(mod.tagName(), newTag);
+
+		item.removeTagKey(Modifier.MODTAG);
+		item.addTagElement(Modifier.MODTAG, modifiers);
+
+		return item;
+	}
+
+	public static ItemStack removeModifier(ItemStack item, Modifier mod) {
+
+		CompoundTag modifiers = item.getOrCreateTagElement(Modifier.MODTAG);
+
+		modifiers.remove(mod.tagName());
 
 		item.removeTagKey(Modifier.MODTAG);
 		item.addTagElement(Modifier.MODTAG, modifiers);
@@ -249,7 +263,6 @@ public class LootUtils {
 
 		return index;
 	}
-	
 
 	public static int getTextureIndex(ItemStack stack) {
 		CompoundTag cosmeticTag = stack.getOrCreateTagElement("cosmetics");
@@ -308,6 +321,10 @@ public class LootUtils {
 		for (Entry<String, Modifier> entry : ModifierRegistry.Modifiers.entrySet()) {
 			Modifier newMod = entry.getValue();
 
+			if (!Config.traitEnabled(newMod.tagName())) {
+				continue;
+			}
+
 			if (!newMod.forTool(type)) {
 				continue;
 			}
@@ -353,10 +370,10 @@ public class LootUtils {
 			generateNewTrait(stack, getToolType(stack));
 		}
 	}
-	
+
 	public static int getToolMaxTextures(ItemStack stack) {
 		ToolType m = getToolType(stack);
-		
+
 		return switch (m) {
 		case PICKAXE: {
 			yield PICKAXE_COUNT;
@@ -373,20 +390,20 @@ public class LootUtils {
 		default:
 			yield 0;
 		};
-	
+
 	}
-	
+
 	public static int addToolTextures(ItemStack stack, int count) {
 		int max = getToolMaxTextures(stack);
-		
+
 		int current = getTextureIndex(stack);
-	
+
 		int newTexture = (current + count) % max;
-		
+
 		return newTexture;
-		
+
 	}
-	
+
 	public static void addTexture(ItemStack stack, int count) {
 		setTexture(stack, addToolTextures(stack, count));
 	}
@@ -417,7 +434,8 @@ public class LootUtils {
 		StatType<Item> itemUsed = Stats.ITEM_USED;
 		count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
 
-		float goodness = (float) Math.sqrt(count + 1); // keeping track of items stats through a "goodness" curve
+		float goodness = (float) (Math.sqrt(count + 1) * Config.Goodness); // keeping track of items stats through a
+																			// "goodness" curve
 
 		int traits = (int) (Math.floor(goodness / 2.0f)); // how many traits the tool should be created with
 

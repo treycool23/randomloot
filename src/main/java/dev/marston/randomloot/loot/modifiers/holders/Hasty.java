@@ -19,35 +19,33 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Hasty implements HoldModifier{
+public class Hasty implements HoldModifier {
 
 	private String name;
 	private float power;
-	private final static String POWER = "power";  
-	
+	private final static String POWER = "power";
+
 	public Hasty(String name, float power) {
 		this.name = name;
 		this.power = power;
 	}
-	
+
 	public Hasty() {
 		this.name = "Hasty";
 		this.power = 4.0f;
 	}
-	
+
 	public Modifier clone() {
 		return new Hasty();
 	}
-	
-	
 
 	@Override
 	public CompoundTag toNBT() {
-		
+
 		CompoundTag tag = new CompoundTag();
-		
+
 		tag.putFloat(POWER, power);
-		
+
 		tag.putString(NAME, name);
 
 		return tag;
@@ -77,27 +75,26 @@ public class Hasty implements HoldModifier{
 	public String description() {
 		return "While holding the tool, get the Haste effect.";
 	}
-	
+
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
-		
+
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
-		
+
 		list.add(comp);
 	}
-	
 
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return null;
 	}
-	
+
 	@Override
 	public boolean compatible(Modifier mod) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean forTool(ToolType type) {
 		return type.equals(ToolType.PICKAXE) || type.equals(ToolType.AXE) || type.equals(ToolType.SHOVEL);
@@ -114,6 +111,6 @@ public class Hasty implements HoldModifier{
 			Player p = (Player) holder;
 			p.addEffect(haste);
 		}
-		
+
 	}
 }

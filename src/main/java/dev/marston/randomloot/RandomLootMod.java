@@ -46,43 +46,39 @@ public class RandomLootMod {
 
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
 			.create(Registries.CREATIVE_MODE_TAB, MODID);
-	
+
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
 			.create(Registries.RECIPE_SERIALIZER, MODID);
-	
-    static RandomLootMod INSTANCE;
 
-	
+	static RandomLootMod INSTANCE;
+
 	public RandomLootMod() {
-		
-		if (INSTANCE != null) {
-            throw new IllegalStateException();
-        }
-        INSTANCE = this;
-		
-		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		
+		if (INSTANCE != null) {
+			throw new IllegalStateException();
+		}
+		INSTANCE = this;
+
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		bus.addListener((RegisterEvent event) -> {
 			if (!event.getRegistryKey().equals(Registries.BLOCK)) {
-                return;
-            }
+				return;
+			}
 			Recipies.init(ForgeRegistries.RECIPE_SERIALIZERS);
 		});
-		
 
 		bus.addListener(this::commonSetup);
 		bus.addListener(this::addCreative);
-		
+
 		MinecraftForge.EVENT_BUS.register(this);
-		
+
 		ModLootModifiers.register(bus);
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
 		GenWiki.genWiki();
-		
+
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
@@ -134,7 +130,6 @@ public class RandomLootMod {
 			});
 
 		}
-		
 
 	}
 }

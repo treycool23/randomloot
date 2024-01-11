@@ -19,15 +19,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Effect implements HoldModifier{
+public class Effect implements HoldModifier {
 
 	private String name;
 	private float power;
 	private String tagname;
-	private final static String POWER = "power"; 
+	private final static String POWER = "power";
 	private MobEffect effect;
 	private int duration;
-	
+
 	public Effect(String name, String tagname, int duration, MobEffect effect) {
 		this.name = name;
 		this.effect = effect;
@@ -39,16 +39,14 @@ public class Effect implements HoldModifier{
 	public Modifier clone() {
 		return new Effect(this.name, this.tagname, this.duration, this.effect);
 	}
-	
-	
 
 	@Override
 	public CompoundTag toNBT() {
-		
+
 		CompoundTag tag = new CompoundTag();
-		
+
 		tag.putFloat(POWER, power);
-		
+
 		tag.putString(NAME, name);
 
 		return tag;
@@ -81,29 +79,29 @@ public class Effect implements HoldModifier{
 
 	@Override
 	public String description() {
-		return "While holding the tool, get the " + I18n.get(effect.getDisplayName().getString()).toLowerCase() + " effect.";
+		return "While holding the tool, get the " + I18n.get(effect.getDisplayName().getString()).toLowerCase()
+				+ " effect.";
 	}
-	
+
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
-		
+
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
-		
+
 		list.add(comp);
 	}
-	
 
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return null;
 	}
-	
+
 	@Override
 	public boolean compatible(Modifier mod) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean forTool(ToolType type) {
 		return type.equals(ToolType.PICKAXE) || type.equals(ToolType.AXE) || type.equals(ToolType.SHOVEL);
@@ -116,12 +114,12 @@ public class Effect implements HoldModifier{
 		if (!(holder instanceof LivingEntity)) {
 			return;
 		}
-		
+
 		LivingEntity livingHolder = (LivingEntity) holder;
 		boolean alreadyHasEffect = livingHolder.hasEffect(effect);
 		if (!alreadyHasEffect) {
 			livingHolder.addEffect(eff);
 		}
-		
+
 	}
 }

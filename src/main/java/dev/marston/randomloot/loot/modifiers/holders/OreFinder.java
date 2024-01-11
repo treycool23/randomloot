@@ -30,45 +30,42 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = RandomLootMod.MODID)
-public class OreFinder implements HoldModifier{
+public class OreFinder implements HoldModifier {
 
 	private String name;
 	private float power;
-	private final static String POWER = "power";  
-	
-	
+	private final static String POWER = "power";
+
 	static int maxTime = 10;
 	static int time = 0;
 	static int maxShulkerLife = 10;
-	
+
 	static boolean locked = false;
-	
+
 	private static ArrayList<Shulker> shulkers = new ArrayList<Shulker>();
 	private static ArrayList<Integer> timings = new ArrayList<Integer>();
-	
+
 	public OreFinder(String name, float power) {
 		this.name = name;
 		this.power = power;
 	}
-	
+
 	public OreFinder() {
 		this.name = "Detecting";
 		this.power = 4.0f;
 	}
-	
+
 	public Modifier clone() {
 		return new OreFinder();
 	}
-	
-	
 
 	@Override
 	public CompoundTag toNBT() {
-		
+
 		CompoundTag tag = new CompoundTag();
-		
+
 		tag.putFloat(POWER, power);
-		
+
 		tag.putString(NAME, name);
 
 		return tag;
@@ -98,32 +95,31 @@ public class OreFinder implements HoldModifier{
 	public String description() {
 		return "While holding the tool, ores around you will glow.";
 	}
-	
+
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
-		
+
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
-		
+
 		list.add(comp);
 	}
-	
 
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return null;
 	}
-	
+
 	@Override
 	public boolean compatible(Modifier mod) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean forTool(ToolType type) {
 		return type.equals(ToolType.PICKAXE) || type.equals(ToolType.AXE) || type.equals(ToolType.SHOVEL);
 	}
-	
+
 	@SubscribeEvent
 	public static void serverStop(ServerStoppingEvent event) {
 		for (Shulker shulker : shulkers) {
@@ -131,36 +127,33 @@ public class OreFinder implements HoldModifier{
 			shulker.setHealth(0);
 		}
 	}
-	
 
 	@SubscribeEvent
 	public static void tickEvent(ServerTickEvent event) {
 		locked = true;
-		
-		time ++;
+
+		time++;
 		time = time % maxTime;
-		
-		
-		if(time == 0) {
+
+		if (time == 0) {
 			int off = 0;
-			for(int i = 0; i < shulkers.size(); i ++) {
+			for (int i = 0; i < shulkers.size(); i++) {
 				int iOff = i - off;
 				int tick = timings.get(iOff) + 1;
 				timings.set(iOff, tick);
 				Shulker sh = shulkers.get(iOff);
-				
-				
-				
-				if(tick > maxShulkerLife || sh.level().getBlockState(sh.blockPosition()).getBlock().equals(Blocks.AIR)) {
+
+				if (tick > maxShulkerLife
+						|| sh.level().getBlockState(sh.blockPosition()).getBlock().equals(Blocks.AIR)) {
 					shulkers.get(iOff).setPos(0, -256, 0);
 					shulkers.get(iOff).setHealth(0);
 					shulkers.remove(iOff);
 					timings.remove(iOff);
-					off ++;
+					off++;
 				}
 			}
 		}
-		
+
 		locked = false;
 	}
 
@@ -169,20 +162,20 @@ public class OreFinder implements HoldModifier{
 		if (locked) {
 			return;
 		}
-		
+
 		int size = 10;
-		for(int i = -size; i < size; i ++) {
-			for(int j = -size; j < size; j ++) {
-				for(int k = -size; k < size; k ++) {
-					BlockPos p = new BlockPos((int) (holder.getX() + i), (int) (holder.getY() + j) , (int) (holder.getZ() + k));
+		for (int i = -size; i < size; i++) {
+			for (int j = -size; j < size; j++) {
+				for (int k = -size; k < size; k++) {
+					BlockPos p = new BlockPos((int) (holder.getX() + i), (int) (holder.getY() + j),
+							(int) (holder.getZ() + k));
 					Block b = level.getBlockState(p).getBlock();
 					name = b.getName().getString();
-					
-					if(name.toLowerCase().contains("ore")) {
-						
-						
+
+					if (name.toLowerCase().contains("ore")) {
+
 						List<Entity> entitiesInBlock = level.getEntities(null, new AABB(p));
-						if(!entitiesInBlock.isEmpty()) {
+						if (!entitiesInBlock.isEmpty()) {
 							boolean isShulker = false;
 							for (Entity entity : entitiesInBlock) {
 								if (entity.getType() == EntityType.SHULKER) {
@@ -194,32 +187,24 @@ public class OreFinder implements HoldModifier{
 								continue;
 							}
 						}
-						
-						
+
 						Shulker se = new Shulker(EntityType.SHULKER, level);
 						se.setGlowingTag(true);
 						se.setInvulnerable(true);
 						se.setInvisible(true);
 						se.setPos(p.getX(), p.getY(), p.getZ());
 						se.setNoAi(true);
-						
-						
-					
-						level.addFreshEntity(se);
-						se.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 1200, 0, false ,false));
 
-						
+						level.addFreshEntity(se);
+						se.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 1200, 0, false, false));
 
 						shulkers.add(se);
 						timings.add(-1);
-						
-						
+
 					}
 				}
 			}
 		}
-		
-		
-		
+
 	}
 }

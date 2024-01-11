@@ -46,13 +46,12 @@ public class Learning implements BlockBreakModifier {
 	@Override
 	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity entity) {
 
-		
 		if (!(entity instanceof Player)) {
 			return;
 		}
-		
+
 		Player player = (Player) entity;
-		
+
 		Level l = player.level();
 
 		this.count++;

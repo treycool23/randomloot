@@ -19,7 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Critical implements EntityHurtModifier{
+public class Critical implements EntityHurtModifier {
 	private String name;
 
 	public Critical(String name) {
@@ -34,7 +34,6 @@ public class Critical implements EntityHurtModifier{
 		return new Critical();
 	}
 
-	
 	@Override
 	public CompoundTag toNBT() {
 
@@ -99,7 +98,7 @@ public class Critical implements EntityHurtModifier{
 		float dmg = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
 
 		float amt = dmg * 0.5f;
-		
+
 		Modifier.TrackEntityParticle(hurtee.level(), hurtee, ParticleTypes.CRIT);
 
 		if (hurter instanceof Player) {
@@ -107,9 +106,8 @@ public class Critical implements EntityHurtModifier{
 			hurtee.hurt(hurter.damageSources().playerAttack(p), amt);
 			return;
 		}
-		
+
 		hurtee.hurt(hurter.damageSources().mobAttack(hurter), amt);
-		
-		
+
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.breakers.Attracting;
+import dev.marston.randomloot.loot.modifiers.breakers.Explode;
 import dev.marston.randomloot.loot.modifiers.breakers.Learning;
 import dev.marston.randomloot.loot.modifiers.breakers.Veiny;
 import dev.marston.randomloot.loot.modifiers.holders.Effect;
@@ -25,12 +26,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffects;
 
 public class ModifierRegistry {
-	
-	
+
 	public static HashMap<String, Modifier> Modifiers = new HashMap<String, Modifier>();
-	
-	
-//	public static Modifier EXPLODE = register(new Explode()); // disabling exploding until we can remove it from config
+	public static HashMap<String, Boolean> ModifierEnabled = new HashMap<String, Boolean>();
+
+	public static Modifier EXPLODE = register(new Explode()); // disabling exploding until we can remove it from config
 	public static Modifier LEARNING = register(new Learning());
 	public static Modifier ATTRACTING = register(new Attracting());
 	public static Modifier VEINY = register(new Veiny());
@@ -53,39 +53,40 @@ public class ModifierRegistry {
 	public static Modifier ABSORBTION = register(new Effect("Appley", "absorbtion", 10, MobEffects.ABSORPTION));
 	public static Modifier REGENERATING = register(new Effect("Healing", "regeneration", 3, MobEffects.REGENERATION));
 	public static Modifier RESISTANT = register(new Effect("Resistant", "resistance", 1, MobEffects.DAMAGE_RESISTANCE));
-	public static Modifier FIRE_RESISTANT = register(new Effect("Heat Resistant", "fire_resistance", 1, MobEffects.FIRE_RESISTANCE));
+	public static Modifier FIRE_RESISTANT = register(
+			new Effect("Heat Resistant", "fire_resistance", 1, MobEffects.FIRE_RESISTANCE));
 	public static Modifier RAINY = register(new Rainy());
 	public static Modifier ORE_FINDER = register(new OreFinder());
 	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 
-	public static final Set<Modifier> BREAKERS = Set.of(/**EXPLODE,*/ LEARNING, ATTRACTING, VEINY);
+	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING, VEINY);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE, FIRE_PLACE);
-	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS, WITHERING, BLINDING);
+	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS,
+			WITHERING, BLINDING);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER);
 
 	public static Modifier register(Modifier modifier) {
-		
+
 		String tagName = modifier.tagName();
-		
+
 		if (Modifiers.containsKey(tagName)) {
 			RandomLootMod.LOGGER.error("Cannot register modifier twice!");
 			System.exit(1);
 		}
-		
+
 		Modifiers.put(tagName, modifier);
-		
+		ModifierEnabled.put(tagName, true);
+
 		return modifier;
 	}
-	
+
 	public static Modifier loadModifier(String name, CompoundTag tag) {
-			Modifier m = Modifiers.get(name);
-			if (m == null) {
-				return null;
-			}
-			
-			return m.fromNBT(tag);
+		Modifier m = Modifiers.get(name);
+		if (m == null) {
+			return null;
+		}
+
+		return m.fromNBT(tag);
 	}
-	
-	
 
 }

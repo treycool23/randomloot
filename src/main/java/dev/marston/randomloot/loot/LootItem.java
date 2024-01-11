@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
+import dev.marston.randomloot.Config;
 import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
@@ -136,9 +137,9 @@ public class LootItem extends Item {
 		} else if (type == ToolType.SWORD) {
 			if (block.getBlock() == Blocks.COBWEB) {
 				return 15.0f;
-			} 
+			}
 			return 1.0f;
-		}else {
+		} else {
 			return 1.0f;
 		}
 
@@ -149,7 +150,7 @@ public class LootItem extends Item {
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isRepairable(ItemStack stack) {
 		return true;
@@ -159,7 +160,7 @@ public class LootItem extends Item {
 	public boolean isValidRepairItem(ItemStack tool, ItemStack material) {
 		return material.getItem().equals(Items.DIAMOND);
 	}
-	
+
 	@Override
 	public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
 
@@ -215,6 +216,9 @@ public class LootItem extends Item {
 
 		for (Modifier mod : mods) {
 			if (mod instanceof EntityHurtModifier) {
+				if (!Config.traitEnabled(mod.tagName())) {
+					continue;
+				}
 				EntityHurtModifier ehm = (EntityHurtModifier) mod;
 
 				ehm.hurtEnemy(itemstack, hurtee, hurter);
@@ -226,33 +230,30 @@ public class LootItem extends Item {
 		});
 		return true;
 	}
-	
+
 	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
-    { 
-		
-		if (enchantment.category.equals(EnchantmentCategory.BREAKABLE)) { // all these items are breakable so we can enchant them first!
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+
+		if (enchantment.category.equals(EnchantmentCategory.BREAKABLE)) { // all these items are breakable so we can
+																			// enchant them first!
 			return true;
 		}
-		
+
 		ToolType type = LootUtils.getToolType(stack);
 		if (enchantment.category.equals(EnchantmentCategory.DIGGER)) {
 			if (type == ToolType.AXE || type == ToolType.SHOVEL || type == ToolType.PICKAXE) {
 				return true;
 			}
 		}
-		
+
 		if (enchantment.category.equals(EnchantmentCategory.WEAPON)) {
 			if (type == ToolType.AXE || type == ToolType.SWORD) {
 				return true;
 			}
 		}
-		
-		
-		
-		
-        return enchantment.category.canEnchant(stack.getItem());
-    }
+
+		return enchantment.category.canEnchant(stack.getItem());
+	}
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level level, BlockState blockState, BlockPos pos, LivingEntity player) {
@@ -265,17 +266,20 @@ public class LootItem extends Item {
 				RandomLootMod.LOGGER.info("testing for " + mod.name());
 
 				if (mod instanceof BlockBreakModifier) {
+					if (!Config.traitEnabled(mod.tagName())) {
+						continue;
+					}
 					BlockBreakModifier bbm = (BlockBreakModifier) mod;
 					RandomLootMod.LOGGER.info("running " + bbm.name());
 
 					bbm.startBreak(stack, pos, player);
 				}
 			}
-			
+
 			stack.hurtAndBreak(1, player, (p_40992_) -> {
 				p_40992_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 			});
-			
+
 			LootUtils.addXp(stack, player, 1);
 
 		}
@@ -285,8 +289,6 @@ public class LootItem extends Item {
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, Player player) {
-
-		
 
 		return super.onBlockStartBreak(itemstack, pos, player);
 	}
@@ -308,6 +310,9 @@ public class LootItem extends Item {
 		for (Modifier mod : mods) {
 
 			if (mod instanceof UseModifier) {
+				if (!Config.traitEnabled(mod.tagName())) {
+					continue;
+				}
 				UseModifier um = (UseModifier) mod;
 
 				um.use(ctx);
@@ -365,6 +370,9 @@ public class LootItem extends Item {
 		});
 
 		for (Modifier modifier : mods) {
+			if (!Config.traitEnabled(modifier.tagName())) {
+				continue;
+			}
 			modifier.writeToLore(tipList, show);
 			if (show) {
 				Component details = modifier.writeDetailsToLore(level);

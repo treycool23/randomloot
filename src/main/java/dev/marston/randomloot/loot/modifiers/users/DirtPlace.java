@@ -49,7 +49,7 @@ public class DirtPlace implements UseModifier {
 		this.name = NameGenerator.generateForger(0.5f) + "'s Grace";
 		this.damage = 1;
 	}
-	
+
 	public Modifier clone() {
 		return new DirtPlace();
 	}
@@ -261,28 +261,25 @@ public class DirtPlace implements UseModifier {
 
 	@Override
 	public String description() {
-		return "Right clicking on the top of a block with the tool in hand will place a dirt block and use " + this.damage
-				+ " durability points.";
+		return "Right clicking on the top of a block with the tool in hand will place a dirt block and use "
+				+ this.damage + " durability points.";
 	}
 
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
-		
+
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
-		
+
 		list.add(comp);
-		
-		
-		
+
 	}
-	
+
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return null;
 
 	}
-	
 
 	@Override
 	public boolean compatible(Modifier mod) {

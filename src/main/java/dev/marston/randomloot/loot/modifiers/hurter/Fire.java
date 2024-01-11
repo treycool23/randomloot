@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Fire implements EntityHurtModifier{
+public class Fire implements EntityHurtModifier {
 	private String name;
 	private int points;
 	private final static String POINTS = "points";
@@ -34,7 +34,6 @@ public class Fire implements EntityHurtModifier{
 		return new Fire();
 	}
 
-	
 	@Override
 	public CompoundTag toNBT() {
 

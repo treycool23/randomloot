@@ -18,15 +18,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class HurtEffect implements EntityHurtModifier{
+public class HurtEffect implements EntityHurtModifier {
 
 	private String name;
 	private float power;
 	private String tagname;
-	private final static String POWER = "power"; 
+	private final static String POWER = "power";
 	private MobEffect effect;
 	private int duration;
-	
+
 	public HurtEffect(String name, String tagname, int duration, MobEffect effect) {
 		this.name = name;
 		this.effect = effect;
@@ -38,16 +38,14 @@ public class HurtEffect implements EntityHurtModifier{
 	public Modifier clone() {
 		return new HurtEffect(this.name, this.tagname, this.duration, this.effect);
 	}
-	
-	
 
 	@Override
 	public CompoundTag toNBT() {
-		
+
 		CompoundTag tag = new CompoundTag();
-		
+
 		tag.putFloat(POWER, power);
-		
+
 		tag.putString(NAME, name);
 
 		return tag;
@@ -80,42 +78,39 @@ public class HurtEffect implements EntityHurtModifier{
 
 	@Override
 	public String description() {
-		return "When attacking with tool, apply the " + I18n.get(effect.getDisplayName().getString()).toLowerCase() + " effect to the target.";
+		return "When attacking with tool, apply the " + I18n.get(effect.getDisplayName().getString()).toLowerCase()
+				+ " effect to the target.";
 	}
-	
+
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
-		
+
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
-		
+
 		list.add(comp);
 	}
-	
 
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
 
 		return null;
 	}
-	
+
 	@Override
 	public boolean compatible(Modifier mod) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean forTool(ToolType type) {
 		return type.equals(ToolType.SWORD) || type.equals(ToolType.AXE);
 	}
 
-
-
 	@Override
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
-		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, 1, false, false);	
-		
-		
+		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, 1, false, false);
+
 		hurtee.addEffect(eff);
-		
+
 	}
 }

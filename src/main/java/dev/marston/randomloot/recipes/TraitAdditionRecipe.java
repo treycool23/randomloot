@@ -34,7 +34,7 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 
 	public boolean matches(Container inv, Level p_266781_) {
 		ItemStack template = inv.getItem(0);
-		if (!template.isEmpty()) { // we want an empty template
+		if (!isTemplateIngredient(template)) { // we want an empty template
 			return false;
 		}
 
@@ -54,23 +54,38 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 
 	public ItemStack assemble(Container inv, RegistryAccess p_266699_) {
 
+		ItemStack template = inv.getItem(0);
+
+		boolean shouldAdd = false;
+		if (template.getItem() == LootRegistry.ModAdd) {
+			shouldAdd = true;
+		} else if (template.getItem() == LootRegistry.ModSub) {
+			shouldAdd = false;
+		} else {
+			return ItemStack.EMPTY;
+		}
+
 		ItemStack s = inv.getItem(1);
 
 		ItemStack itemstack = s.copy();
-		
+
 		Modifier mod = ModifierRegistry.Modifiers.get(trait);
-		
+
 		if (mod == null) {
 			return ItemStack.EMPTY;
 		}
-		
-		itemstack = LootUtils.addModifier(itemstack, mod.clone());
+
+		if (shouldAdd) {
+			itemstack = LootUtils.addModifier(itemstack, mod.clone());
+		} else {
+			itemstack = LootUtils.removeModifier(itemstack, mod.clone());
+		}
 
 		return itemstack;
 	}
 
 	public boolean isTemplateIngredient(ItemStack stack) {
-		return false;
+		return stack.getItem() == LootRegistry.ModAdd || stack.getItem() == LootRegistry.ModSub;
 	}
 
 	public boolean isBaseIngredient(ItemStack stack) {
@@ -106,7 +121,7 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 			String trait = GsonHelper.getNonNull(jsonObj, "trait").getAsString();
 
 			TraitAdditionRecipe t = new TraitAdditionRecipe(id, ingredient, trait);
-			
+
 			RandomLootMod.LOGGER.info(t.trait);
 			RandomLootMod.LOGGER.info(t.item.toString());
 
@@ -120,10 +135,10 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 			String trait = buffer.readCharSequence(l, Charset.forName("utf-8")).toString();
 
 			TraitAdditionRecipe t = new TraitAdditionRecipe(id, ingredient, trait);
-			
+
 			RandomLootMod.LOGGER.info(t.trait);
 			RandomLootMod.LOGGER.info(t.item.toString());
-			
+
 			return t;
 		}
 

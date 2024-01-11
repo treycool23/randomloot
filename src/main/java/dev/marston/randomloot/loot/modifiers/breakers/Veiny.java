@@ -106,13 +106,11 @@ public class Veiny implements BlockBreakModifier {
 		if (l.isClientSide) {
 			return;
 		}
-		
+
 		BlockState state = l.getBlockState(pos);
-		
+
 		LootItem li = (LootItem) itemstack.getItem();
-		
-		
-		
+
 		if (!li.isCorrectToolForDrops(itemstack, state)) {
 			return;
 		}
@@ -127,13 +125,11 @@ public class Veiny implements BlockBreakModifier {
 			BlockPos blockPos = iterator.next();
 
 			removeBlock(itemstack, blockPos, player, l, l.getBlockState(blockPos));
-			
-			itemstack.hurtAndBreak(1, player, (entity) -> {
-				
-				entity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-	            });
-			
 
+			itemstack.hurtAndBreak(1, player, (entity) -> {
+
+				entity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+			});
 
 		}
 	}

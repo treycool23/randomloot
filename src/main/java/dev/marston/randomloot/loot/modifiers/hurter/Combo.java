@@ -19,14 +19,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Combo implements EntityHurtModifier{
+public class Combo implements EntityHurtModifier {
 	private String name;
 	private int points;
 	private final static String POINTS = "points";
 	private long charged;
 	private final static String CHARGED = "charged";
 
-	public Combo(String name, int points, long charged ) {
+	public Combo(String name, int points, long charged) {
 		this.name = name;
 		this.points = points;
 		this.charged = charged;
@@ -42,7 +42,6 @@ public class Combo implements EntityHurtModifier{
 		return new Combo();
 	}
 
-	
 	@Override
 	public CompoundTag toNBT() {
 
@@ -86,35 +85,34 @@ public class Combo implements EntityHurtModifier{
 		list.add(comp);
 
 	}
-	
+
 	private float getCharge(Level level) {
 		if (level != null) {
 			long time = level.getGameTime();
-			
+
 			long diff = time - charged;
-			
+
 			float rate = (float) (diff) / (float) (points * 20);
 			if (rate > 1.0f) {
 				rate = 1.0f;
 			}
-			
+
 			return rate;
 		}
-		
+
 		return 0.0f;
 	}
 
 	@Override
 	public Component writeDetailsToLore(@Nullable Level level) {
-		
+
 		if (level != null) {
 			float charge = getCharge(level);
-			
+
 			String s = "Not Ready";
 			if (charge < 1.0f) {
 				s = "Ready";
 			}
-			
 
 			return Modifier.makeComp(s, ChatFormatting.RED);
 		}
@@ -132,34 +130,27 @@ public class Combo implements EntityHurtModifier{
 		return type.equals(ToolType.SWORD) || type.equals(ToolType.AXE);
 	}
 
-
-
 	@Override
 	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
-		
+
 		Level level = hurtee.level();
-		
+
 		long time = level.getGameTime();
 		RandomLootMod.LOGGER.info("game time: " + time);
-		
+
 		if (getCharge(level) < 1.0f) {
-			
+
 			float damage = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
-			
+
 			hurtee.hurt(hurter.damageSources().mobAttack(hurtee), damage * 0.25f);
-			
+
 			Modifier.TrackEntityParticle(level, hurtee, ParticleTypes.CRIT);
-			
-			
+
 		}
-		
+
 		this.charged = time;
 		LootUtils.addModifier(itemstack, this);
-		
-		
-		
-		
-	}
 
+	}
 
 }
