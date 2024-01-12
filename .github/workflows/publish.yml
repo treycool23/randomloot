@@ -60,13 +60,13 @@ jobs:
             project_id: "301631"
             display_name: "Random Loot 2 - ${{ steps.get_version.outputs.VERSION }}"
             release_type: ${{ steps.release_type.outputs.RELEASE_TYPE }}
-            changelog: "# Change Log\n\nClick [here](https://github.com/TheMarstonConnell/randomloot/releases/tag/${{ steps.get_version.outputs.VERSION }}) for full list of changes."
+            changelog: "# Change Log\n\nClick [here](https://github.com/TheMarstonConnell/randomloot/releases/tag/v${{ steps.get_version.outputs.VERSION }}) for full list of changes."
         - name: Upload to Modrinth
           uses: Kir-Antipov/mc-publish@v3.3
           with:
             modrinth-id: bM2Gf75C
             modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-            changelog: "# Change Log\n\nClick [here](https://github.com/TheMarstonConnell/randomloot/releases/tag/${{ steps.get_version.outputs.VERSION }}) for full list of changes."
+            changelog: "# Change Log\n\nClick [here](https://github.com/TheMarstonConnell/randomloot/releases/tag/v${{ steps.get_version.outputs.VERSION }}) for full list of changes."
             files: build/libs/*.jar
             name: "Random Loot 2 - ${{ steps.get_version.outputs.VERSION }}"
             version-type: ${{ steps.release_type.outputs.RELEASE_TYPE }}
