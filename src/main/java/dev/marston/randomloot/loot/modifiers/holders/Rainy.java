@@ -106,7 +106,8 @@ public class Rainy implements HoldModifier {
 			MobEffectInstance haste = new MobEffectInstance(MobEffects.DIG_SPEED, 3, 2, false, false);
 
 			if (holder instanceof LivingEntity) {
-				haste.applyEffect((LivingEntity) holder);
+				LivingEntity le = (LivingEntity) holder;
+				le.addEffect(haste);
 			}
 			if (holder instanceof Player) {
 				Player p = (Player) holder;

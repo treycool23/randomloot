@@ -105,7 +105,8 @@ public class Hasty implements HoldModifier {
 		MobEffectInstance haste = new MobEffectInstance(MobEffects.DIG_SPEED, 3, 0, true, false);
 
 		if (holder instanceof LivingEntity) {
-			haste.applyEffect((LivingEntity) holder);
+			LivingEntity le = (LivingEntity) holder;
+			le.addEffect(haste);
 		}
 		if (holder instanceof Player) {
 			Player p = (Player) holder;

@@ -1,7 +1,6 @@
 package dev.marston.randomloot.recipes;
 
 import dev.marston.randomloot.RandomLootMod;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.IForgeRegistry;

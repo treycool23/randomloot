@@ -3,7 +3,6 @@ package dev.marston.randomloot.recipes;
 import dev.marston.randomloot.loot.LootRegistry;
 import dev.marston.randomloot.loot.LootUtils;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
@@ -22,8 +21,8 @@ public class TextureChangeRecipe extends CustomRecipe {
 	private static final Ingredient CHANGE_TEXTURE_INGREDIENT = Ingredient.of(Items.AMETHYST_SHARD);
 	private static final Item ITEM = LootRegistry.ToolItem;
 
-	public TextureChangeRecipe(ResourceLocation name, CraftingBookCategory cat) {
-		super(name, cat);
+	public TextureChangeRecipe(CraftingBookCategory cat) {
+		super(cat);
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class TextureChangeRecipe extends CustomRecipe {
 	public static RecipeSerializer<?> getMySerializer() {
 		if (SERIALIZER == null) {
 			SERIALIZER = new SimpleCraftingRecipeSerializer<TextureChangeRecipe>(
-					(name, category) -> new TextureChangeRecipe(name, category));
+					(category) -> new TextureChangeRecipe(category));
 		}
 		return SERIALIZER;
 	}

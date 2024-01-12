@@ -2,7 +2,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
 }
 
 version = mod_version
@@ -140,6 +140,8 @@ dependencies {
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+
+	implementation('cpw.mods:securejarhandler') { version { strictly '0.9.45' } }
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

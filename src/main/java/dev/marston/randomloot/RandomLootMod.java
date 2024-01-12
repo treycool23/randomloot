@@ -6,20 +6,17 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import dev.marston.randomloot.loot.LootCase;
 import dev.marston.randomloot.loot.LootRegistry;
 import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.recipes.Recipies;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.FireworkStarRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -128,6 +125,7 @@ public class RandomLootMod {
 				}
 
 			});
+			LootCase.initDispenser();
 
 		}
 

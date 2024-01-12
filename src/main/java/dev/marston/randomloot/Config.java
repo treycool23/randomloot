@@ -6,13 +6,11 @@ import java.util.Map.Entry;
 
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(modid = RandomLootMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
@@ -62,11 +60,6 @@ public class Config {
 		GOODNESS = BUILDER.comment("rate of tool improvement per player").defineInRange("goodness_rate", 1.0, 0.01,
 				10.0);
 		BUILDER.pop();
-	}
-
-	private static boolean validateItemName(final Object obj) {
-		return obj instanceof final String itemName
-				&& ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
 	}
 
 	public static boolean traitEnabled(String tagName) {

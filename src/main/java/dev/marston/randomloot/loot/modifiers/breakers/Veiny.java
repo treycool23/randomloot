@@ -7,9 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import dev.marston.randomloot.RandomLootMod;
 import dev.marston.randomloot.loot.LootItem;
-import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.LootItem.ToolType;
 import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
@@ -19,17 +17,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 
 public class Veiny implements BlockBreakModifier {
 

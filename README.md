@@ -34,6 +34,9 @@ Trait Addition/Subtraction Templates are items that allow you to add and remove 
 
 You can find Trait Addition Templates in dungeon chests similarly to loot cases. To get Subtraction Templates, right click with an addition template in your hand. They can be swapped back and forth as many times as you'd like but once you use them they're gone.
 
+### Automation
+
+You can place cases in dispensers to be opened automatically. Be aware that cases opened by dispensers will not keep the global progress they would follow if opened by a player, essentially they will always be the worst version of a tool.
 
 ## Another Rewrite?
 The jump from 1.12 to 1.16 was one of the biggest changes to Forge & the Minecraft codebase making a complete rewrite of the mod very welcome. However, the 1.16 to 1.20 is again, a massive change and I'm overall dissatisfied with the 1.16 version of the mods codebase and sloppy planning. As such, 1.20 is a complete rewrite of Random Loot to make the mod feel more cohesive and less janky.

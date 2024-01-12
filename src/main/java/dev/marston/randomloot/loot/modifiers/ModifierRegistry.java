@@ -21,6 +21,7 @@ import dev.marston.randomloot.loot.modifiers.hurter.Draining;
 import dev.marston.randomloot.loot.modifiers.hurter.Fire;
 import dev.marston.randomloot.loot.modifiers.hurter.HurtEffect;
 import dev.marston.randomloot.loot.modifiers.users.DirtPlace;
+import dev.marston.randomloot.loot.modifiers.users.FireBall;
 import dev.marston.randomloot.loot.modifiers.users.FirePlace;
 import dev.marston.randomloot.loot.modifiers.users.TorchPlace;
 import net.minecraft.nbt.CompoundTag;
@@ -31,7 +32,7 @@ public class ModifierRegistry {
 	public static HashMap<String, Modifier> Modifiers = new HashMap<String, Modifier>();
 	public static HashMap<String, Boolean> ModifierEnabled = new HashMap<String, Boolean>();
 
-	public static Modifier EXPLODE = register(new Explode()); // disabling exploding until we can remove it from config
+	public static Modifier EXPLODE = register(new Explode());
 	public static Modifier LEARNING = register(new Learning());
 	public static Modifier ATTRACTING = register(new Attracting());
 	public static Modifier VEINY = register(new Veiny());
@@ -40,6 +41,7 @@ public class ModifierRegistry {
 	public static Modifier TORCH_PLACE = register(new TorchPlace());
 	public static Modifier DIRT_PLACE = register(new DirtPlace());
 	public static Modifier FIRE_PLACE = register(new FirePlace());
+	public static Modifier FIRE_BALL = register(new FireBall());
 
 	public static Modifier FLAMING = register(new Fire());
 	public static Modifier CRITICAL = register(new Critical());
@@ -62,7 +64,7 @@ public class ModifierRegistry {
 	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 
 	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING, VEINY, MELTING);
-	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE, FIRE_PLACE);
+	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE, FIRE_PLACE, FIRE_BALL);
 	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS,
 			WITHERING, BLINDING);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER);

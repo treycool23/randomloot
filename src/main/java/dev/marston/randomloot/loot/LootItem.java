@@ -21,9 +21,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.StatType;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -96,6 +101,8 @@ public class LootItem extends Item {
 		case SWORD:
 			speed = -2.4F;
 			break;
+		default:
+			break;
 		}
 
 		return speed;
@@ -114,6 +121,8 @@ public class LootItem extends Item {
 			break;
 		case SHOVEL:
 			damage = damage * 0.6f;
+			break;
+		default:
 			break;
 		}
 
@@ -314,6 +323,39 @@ public class LootItem extends Item {
 		}
 
 		return InteractionResult.PASS;
+	}
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		ItemStack toolItem = player.getItemInHand(hand);
+
+		if (player instanceof ServerPlayer) {
+			ServerPlayer sPlayer = (ServerPlayer) player;
+			StatType<Item> itemUsed = Stats.ITEM_USED;
+
+			sPlayer.getStats().increment(sPlayer, itemUsed.get(LootRegistry.ToolItem), 1);
+		}
+
+		List<Modifier> mods = LootUtils.getModifiers(toolItem);
+
+		for (Modifier mod : mods) {
+
+			if (mod instanceof UseModifier) {
+				if (!Config.traitEnabled(mod.tagName())) {
+					continue;
+				}
+				UseModifier um = (UseModifier) mod;
+
+				if (um.useAnywhere()) {
+					um.use(level, player, hand);
+				}
+			}
+
+		}
+
+		player.awardStat(Stats.ITEM_USED.get(this));
+
+		return InteractionResultHolder.sidedSuccess(toolItem, level.isClientSide());
 	}
 
 	private MutableComponent makeComp(String text, ChatFormatting color) {

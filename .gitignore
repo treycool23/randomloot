@@ -26,3 +26,5 @@ forge*changelog.txt
 .DS_Store
 
 logs
+
+*.xcf

@@ -2,7 +2,8 @@ package dev.marston.randomloot.recipes;
 
 import java.nio.charset.Charset;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import dev.marston.randomloot.loot.LootRegistry;
 import dev.marston.randomloot.loot.LootUtils;
@@ -10,8 +11,6 @@ import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,12 +21,10 @@ import net.minecraft.world.level.Level;
 public class TraitAdditionRecipe implements SmithingRecipe {
 	public static Serializer SERIALIZER = null;
 
-	private final ResourceLocation id;
 	final Ingredient item;
 	final String trait;
 
-	public TraitAdditionRecipe(ResourceLocation name, Ingredient item, String trait) {
-		this.id = name;
+	public TraitAdditionRecipe(Ingredient item, String trait) {
 		this.item = item;
 		this.trait = trait;
 	}
@@ -96,10 +93,6 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 		return item.test(stack);
 	}
 
-	public ResourceLocation getId() {
-		return this.id;
-	}
-
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return getMySerializer();
@@ -114,23 +107,25 @@ public class TraitAdditionRecipe implements SmithingRecipe {
 
 	public static class Serializer implements RecipeSerializer<TraitAdditionRecipe> {
 
-		public TraitAdditionRecipe fromJson(ResourceLocation id, JsonObject jsonObj) {
+		private static final Codec<TraitAdditionRecipe> CODEC = RecordCodecBuilder.create((p_297394_) -> {
+			return p_297394_.group(Ingredient.CODEC.fieldOf("item").forGetter((p_298441_) -> {
+				return p_298441_.item;
+			}), Codec.STRING.fieldOf("trait").forGetter((p_299309_) -> {
+				return p_299309_.trait;
+			})).apply(p_297394_, TraitAdditionRecipe::new);
+		});
 
-			Ingredient ingredient = Ingredient.fromJson(GsonHelper.getNonNull(jsonObj, "item"));
-			String trait = GsonHelper.getNonNull(jsonObj, "trait").getAsString();
-
-			TraitAdditionRecipe t = new TraitAdditionRecipe(id, ingredient, trait);
-
-			return t;
+		public Codec<TraitAdditionRecipe> codec() {
+			return CODEC;
 		}
 
-		public TraitAdditionRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+		public TraitAdditionRecipe fromNetwork(FriendlyByteBuf buffer) {
 
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			int l = buffer.readInt(); // getting length
 			String trait = buffer.readCharSequence(l, Charset.forName("utf-8")).toString();
 
-			TraitAdditionRecipe t = new TraitAdditionRecipe(id, ingredient, trait);
+			TraitAdditionRecipe t = new TraitAdditionRecipe(ingredient, trait);
 
 			return t;
 		}

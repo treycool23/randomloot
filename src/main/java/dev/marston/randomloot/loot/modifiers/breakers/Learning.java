@@ -52,8 +52,6 @@ public class Learning implements BlockBreakModifier {
 
 		Player player = (Player) entity;
 
-		Level l = player.level();
-
 		this.count++;
 
 		while (count >= max) {

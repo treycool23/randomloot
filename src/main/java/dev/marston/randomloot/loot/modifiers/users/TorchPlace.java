@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -92,14 +93,6 @@ public class TorchPlace implements UseModifier {
 
 	private boolean placeBlock(BlockPlaceContext p_40578_, BlockState p_40579_) {
 		return p_40578_.getLevel().setBlock(p_40578_.getClickedPos(), p_40579_, 11);
-	}
-
-	private boolean canPlace(BlockPlaceContext p_40611_, BlockState p_40612_) {
-
-		Player player = p_40611_.getPlayer();
-		CollisionContext collisioncontext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
-		return (p_40612_.canSurvive(p_40611_.getLevel(), p_40611_.getClickedPos()))
-				&& p_40611_.getLevel().isUnobstructed(p_40612_, p_40611_.getClickedPos(), collisioncontext);
 	}
 
 	private static <T extends Comparable<T>> BlockState updateState(BlockState p_40594_, Property<T> p_40595_,
@@ -286,4 +279,13 @@ public class TorchPlace implements UseModifier {
 		return true;
 	}
 
+	@Override
+	public void use(Level level, Player player, InteractionHand hand) {
+		return;
+	}
+
+	@Override
+	public boolean useAnywhere() {
+		return false;
+	}
 }

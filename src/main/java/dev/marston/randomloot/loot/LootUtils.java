@@ -164,7 +164,7 @@ public class LootUtils {
 
 		Set<String> mods = modifiers.getAllKeys();
 
-		for (Iterator iterator = mods.iterator(); iterator.hasNext();) {
+		for (Iterator<String> iterator = mods.iterator(); iterator.hasNext();) {
 			String string = (String) iterator.next();
 
 			CompoundTag modTag = modifiers.getCompound(string);
@@ -272,24 +272,34 @@ public class LootUtils {
 	}
 
 	private static void generateLore(ItemStack lootItem, Level level, Player player) {
-		Holder<Biome> biome = level.getBiome(player.blockPosition());
+		String nameColor = "#c0c7d1";
+		float temp = 0.7f;
 
-		Biome b = biome.get();
+		if (player != null) {
+			Holder<Biome> biome = level.getBiome(player.blockPosition());
 
-		float temp = b.getBaseTemperature();
+			Biome b = biome.get();
 
-		String nameColor = String.format("#%06X", (0xFFFFFF & b.getFoliageColor()));
-		if (level.dimension().equals(Level.NETHER)) {
-			nameColor = "#FF8C19";
-		} else if (level.dimension().equals(Level.END)) {
-			nameColor = "#C419FF";
+			temp = b.getBaseTemperature();
+
+			nameColor = String.format("#%06X", (0xFFFFFF & b.getFoliageColor()));
+			if (level.dimension().equals(Level.NETHER)) {
+				nameColor = "#FF8C19";
+			} else if (level.dimension().equals(Level.END)) {
+				nameColor = "#C419FF";
+			}
 		}
 
 		LootUtils.setItemName(lootItem, NameGenerator.generateNameWPrefix(temp, level.isRaining()), nameColor);
 
 		String forger = NameGenerator.generateForger(temp);
 
-		String loreText = "Discovered by " + player.getDisplayName().getString() + ", forged by " + forger + ".";
+		String name = "a machine";
+		if (player != null) {
+			name = player.getDisplayName().getString();
+		}
+
+		String loreText = "Discovered by " + name + ", forged by " + forger + ".";
 
 		LootUtils.setItemLore(lootItem, loreText);
 
@@ -407,8 +417,7 @@ public class LootUtils {
 		setTexture(stack, addToolTextures(stack, count));
 	}
 
-	public static boolean generateTool(Player player, Level level) {
-
+	public static ItemStack genTool(Player player, Level level) {
 		ItemStack lootItem = new ItemStack(LootRegistry.ToolItem);
 
 		/**
@@ -425,11 +434,14 @@ public class LootUtils {
 		 */
 		int count = 0;
 		if (level.isClientSide) {
-			return false;
+			return ItemStack.EMPTY;
 		}
-		ServerPlayer sPlayer = (ServerPlayer) player;
-		StatType<Item> itemUsed = Stats.ITEM_USED;
-		count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
+
+		if (player != null) {
+			ServerPlayer sPlayer = (ServerPlayer) player;
+			StatType<Item> itemUsed = Stats.ITEM_USED;
+			count = sPlayer.getStats().getValue(itemUsed.get(LootRegistry.CaseItem));
+		}
 
 		float goodness = (float) (Math.sqrt(count + 1) * Config.Goodness); // keeping track of items stats through a
 																			// "goodness" curve
@@ -478,15 +490,22 @@ public class LootUtils {
 
 		generateInitialTraits(lootItem, m, traits);
 
-		generateLore(lootItem, level, sPlayer);
+		generateLore(lootItem, level, player);
 
 		LootUtils.setTexture(lootItem, (int) (Math.random() * textureCount));
 
-		boolean added = sPlayer.getInventory().add(lootItem);
+		return lootItem;
+	}
+
+	public static boolean generateTool(ServerPlayer player, Level level) {
+
+		ItemStack lootItem = genTool(player, level);
+
+		boolean added = player.getInventory().add(lootItem);
 		if (!added) {
 			ItemEntity dropItem = new ItemEntity(EntityType.ITEM, level);
 			dropItem.setItem(lootItem);
-			dropItem.setPos(sPlayer.position());
+			dropItem.setPos(player.position());
 
 			level.addFreshEntity(dropItem);
 		}

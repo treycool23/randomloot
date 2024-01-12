@@ -11,22 +11,20 @@ import dev.marston.randomloot.loot.modifiers.UseModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
@@ -164,6 +162,16 @@ public class FirePlace implements UseModifier {
 	@Override
 	public boolean forTool(ToolType type) {
 		return true;
+	}
+
+	@Override
+	public void use(Level level, Player player, InteractionHand hand) {
+		return;
+	}
+
+	@Override
+	public boolean useAnywhere() {
+		return false;
 	}
 
 }

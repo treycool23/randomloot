@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -78,10 +79,11 @@ public class Melting implements BlockBreakModifier {
 
 						DummyContainer mc = new DummyContainer(stack);
 
-						List<SmeltingRecipe> recipes = manager.getRecipesFor(RecipeType.SMELTING, mc, l);
+						List<RecipeHolder<SmeltingRecipe>> recipes = manager.getRecipesFor(RecipeType.SMELTING, mc, l);
 
-						for (SmeltingRecipe recipe : recipes) {
-							ItemStack result = recipe.getResultItem(access).copy();
+						for (RecipeHolder<SmeltingRecipe> recipe : recipes) {
+
+							ItemStack result = recipe.value().getResultItem(access).copy();
 
 							if (result.isEmpty()) {
 								continue;

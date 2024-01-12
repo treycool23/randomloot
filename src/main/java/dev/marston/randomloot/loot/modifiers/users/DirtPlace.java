@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -215,34 +216,6 @@ public class DirtPlace implements UseModifier {
 
 	@Override
 	public void use(UseOnContext ctx) {
-//		BlockPos pos = ctx.getClickedPos();
-//
-//		switch (ctx.getClickedFace()) {
-//		case DOWN:
-//			pos = pos.below();
-//			break;
-//		case EAST:
-//			pos = pos.east();
-//			break;
-//		case NORTH:
-//			pos = pos.north();
-//			break;
-//		case SOUTH:
-//			pos = pos.south();
-//			break;
-//		case UP:
-//			pos = pos.above();
-//			break;
-//		case WEST:
-//			pos = pos.west();
-//			break;
-//		default:
-//			break;
-//		
-//		}
-//		
-
-		Level l = ctx.getLevel();
 
 		BlockPlaceContext bctx = new BlockPlaceContext(ctx);
 
@@ -252,10 +225,6 @@ public class DirtPlace implements UseModifier {
 				event.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 			});
 		}
-
-//
-//		l.setBlock(pos, state, 0);
-//		l.gameEvent(GameEvent.BLOCK_PLACE, pos, GameEvent.Context.of(ctx.getPlayer(), state));
 
 	}
 
@@ -291,4 +260,13 @@ public class DirtPlace implements UseModifier {
 		return true;
 	}
 
+	@Override
+	public void use(Level level, Player player, InteractionHand hand) {
+		return;
+	}
+
+	@Override
+	public boolean useAnywhere() {
+		return false;
+	}
 }
