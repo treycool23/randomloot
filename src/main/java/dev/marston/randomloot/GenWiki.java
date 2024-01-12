@@ -74,22 +74,23 @@ public class GenWiki {
 
 	public static void genWiki() {
 
-		try {
-			String isProd = System.getenv("RL_PROD").strip();
-
-			if (isProd.contains("false")) {
-				RandomLootMod.LOGGER.info("Creating wiki...");
-
-				try {
-					FileWriter wikiWriter = new FileWriter("../MODIFIERS.md");
-					writeModifiers(wikiWriter);
-					wikiWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
+		String isProdEnv = System.getenv("RL_PROD");
+		if (isProdEnv == null) {
 			return;
+		}
+
+		String isProd = isProdEnv.strip();
+
+		if (isProd.contains("false")) {
+			RandomLootMod.LOGGER.info("Creating wiki...");
+
+			try {
+				FileWriter wikiWriter = new FileWriter("../MODIFIERS.md");
+				writeModifiers(wikiWriter);
+				wikiWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
