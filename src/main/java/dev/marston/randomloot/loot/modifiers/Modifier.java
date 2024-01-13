@@ -86,4 +86,8 @@ public interface Modifier {
 	public boolean compatible(Modifier mod);
 
 	public boolean forTool(ToolType type);
+
+	public boolean canLevel();
+
+	public void levelUp();
 }

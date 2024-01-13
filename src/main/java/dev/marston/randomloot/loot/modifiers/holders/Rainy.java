@@ -116,4 +116,12 @@ public class Rainy implements HoldModifier {
 		}
 
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

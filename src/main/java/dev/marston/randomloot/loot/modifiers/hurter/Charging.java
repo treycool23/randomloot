@@ -152,4 +152,12 @@ public class Charging implements EntityHurtModifier {
 
 	}
 
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
+
 }

@@ -122,4 +122,12 @@ public class Healing implements HoldModifier {
 		}
 
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

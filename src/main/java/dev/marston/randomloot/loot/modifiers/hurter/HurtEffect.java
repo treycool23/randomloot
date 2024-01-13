@@ -113,4 +113,12 @@ public class HurtEffect implements EntityHurtModifier {
 		hurtee.addEffect(eff);
 		return false;
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

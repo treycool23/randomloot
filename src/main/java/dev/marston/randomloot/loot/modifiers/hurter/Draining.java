@@ -103,4 +103,12 @@ public class Draining implements EntityHurtModifier {
 		hurter.heal(damage * 0.25f);
 		return false;
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

@@ -172,4 +172,11 @@ public class Melting implements BlockBreakModifier {
 		return type.equals(ToolType.PICKAXE) || type.equals(ToolType.AXE) || type.equals(ToolType.SHOVEL);
 	}
 
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

@@ -288,4 +288,12 @@ public class TorchPlace implements UseModifier {
 	public boolean useAnywhere() {
 		return false;
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

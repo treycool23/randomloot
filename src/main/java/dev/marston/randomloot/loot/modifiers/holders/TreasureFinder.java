@@ -208,4 +208,12 @@ public class TreasureFinder implements HoldModifier {
 		}
 
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

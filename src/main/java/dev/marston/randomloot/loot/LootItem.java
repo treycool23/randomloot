@@ -14,6 +14,7 @@ import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.HoldModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
+import dev.marston.randomloot.loot.modifiers.Unbreaking;
 import dev.marston.randomloot.loot.modifiers.UseModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -230,6 +231,18 @@ public class LootItem extends Item {
 				}
 
 			}
+
+			if (mod instanceof Unbreaking) {
+				if (!Config.traitEnabled(mod.tagName())) {
+					continue;
+				}
+				Unbreaking unbreaking = (Unbreaking) mod;
+
+				if (unbreaking.test(hurtee.level())) {
+					shouldSkipBreak = true;
+				}
+
+			}
 		}
 		if (!shouldSkipBreak) {
 			itemstack.hurtAndBreak(1, hurter, (p_43296_) -> {
@@ -279,6 +292,18 @@ public class LootItem extends Item {
 					if (bbm.startBreak(stack, pos, player)) {
 						shouldSkipBreak = true;
 					}
+				}
+
+				if (mod instanceof Unbreaking) {
+					if (!Config.traitEnabled(mod.tagName())) {
+						continue;
+					}
+					Unbreaking unbreaking = (Unbreaking) mod;
+
+					if (unbreaking.test(level)) {
+						shouldSkipBreak = true;
+					}
+
 				}
 			}
 

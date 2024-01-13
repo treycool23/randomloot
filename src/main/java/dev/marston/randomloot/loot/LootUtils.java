@@ -187,9 +187,28 @@ public class LootUtils {
 	public static ItemStack addModifier(ItemStack item, Modifier mod) {
 
 		CompoundTag modifiers = item.getOrCreateTagElement(Modifier.MODTAG);
-
 		CompoundTag newTag = mod.toNBT();
-		modifiers.put(mod.tagName(), newTag);
+
+		boolean oldModFound = modifiers.contains(mod.tagName()); // does that tag already exist on the tool?
+
+		if (!oldModFound) { // tag doesn't exist so we're adding a new trait.
+
+			modifiers.put(mod.tagName(), newTag);
+			item.removeTagKey(Modifier.MODTAG);
+			item.addTagElement(Modifier.MODTAG, modifiers);
+			return item;
+
+		}
+
+		CompoundTag oldmod = modifiers.getCompound(mod.tagName());
+		Modifier oldModifier = mod.fromNBT(oldmod);
+
+		if (!oldModifier.canLevel()) {
+			return item;
+		}
+
+		oldModifier.levelUp();
+		modifiers.put(oldModifier.tagName(), oldModifier.toNBT());
 
 		item.removeTagKey(Modifier.MODTAG);
 		item.addTagElement(Modifier.MODTAG, modifiers);
@@ -343,8 +362,10 @@ public class LootUtils {
 			for (Modifier modifier : mods) {
 
 				if (modifier.tagName() == newMod.tagName()) {
-					compatible = false;
-					break;
+					if (!modifier.canLevel()) {
+						compatible = false;
+						break;
+					}
 				}
 
 				if (!modifier.compatible(newMod)) {
@@ -510,6 +531,66 @@ public class LootUtils {
 			level.addFreshEntity(dropItem);
 		}
 		return true;
+	}
+
+	public static String roman(int input) {
+		if (input < 1 || input > 3999)
+			return "Invalid Roman Number Value";
+		String s = "";
+		while (input >= 1000) {
+			s += "M";
+			input -= 1000;
+		}
+		while (input >= 900) {
+			s += "CM";
+			input -= 900;
+		}
+		while (input >= 500) {
+			s += "D";
+			input -= 500;
+		}
+		while (input >= 400) {
+			s += "CD";
+			input -= 400;
+		}
+		while (input >= 100) {
+			s += "C";
+			input -= 100;
+		}
+		while (input >= 90) {
+			s += "XC";
+			input -= 90;
+		}
+		while (input >= 50) {
+			s += "L";
+			input -= 50;
+		}
+		while (input >= 40) {
+			s += "XL";
+			input -= 40;
+		}
+		while (input >= 10) {
+			s += "X";
+			input -= 10;
+		}
+		while (input >= 9) {
+			s += "IX";
+			input -= 9;
+		}
+		while (input >= 5) {
+			s += "V";
+			input -= 5;
+		}
+		while (input >= 4) {
+			s += "IV";
+			input -= 4;
+		}
+		while (input >= 1) {
+			s += "I";
+			input -= 1;
+		}
+		return s;
+
 	}
 
 }

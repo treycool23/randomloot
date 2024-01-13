@@ -65,12 +65,16 @@ public class ModifierRegistry {
 	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 	public static Modifier LIVING = register(new Healing());
 
+	public static Modifier UNBREAKING = register(new Unbreaking());
+
 	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING, VEINY, MELTING);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE, FIRE_PLACE, FIRE_BALL);
 	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS,
 			WITHERING, BLINDING);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER,
 			LIVING);
+
+	public static final Set<Modifier> MISC = Set.of(UNBREAKING);
 
 	public static Modifier register(Modifier modifier) {
 

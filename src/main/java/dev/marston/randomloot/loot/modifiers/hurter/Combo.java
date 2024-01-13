@@ -152,4 +152,11 @@ public class Combo implements EntityHurtModifier {
 		return false;
 	}
 
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

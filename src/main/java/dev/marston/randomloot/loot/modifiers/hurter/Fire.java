@@ -99,4 +99,12 @@ public class Fire implements EntityHurtModifier {
 		hurtee.setSecondsOnFire(points);
 		return false;
 	}
+
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
 }

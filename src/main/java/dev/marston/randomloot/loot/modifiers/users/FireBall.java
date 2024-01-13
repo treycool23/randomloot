@@ -128,4 +128,12 @@ public class FireBall implements UseModifier {
 		return true;
 	}
 
+	public boolean canLevel() {
+		return false;
+	}
+
+	public void levelUp() {
+		return;
+	}
+
 }

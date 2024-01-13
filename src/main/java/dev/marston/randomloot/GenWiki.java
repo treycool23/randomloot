@@ -79,6 +79,9 @@ public class GenWiki {
 		write("These effects are applied when hurting enemies.", f);
 		writeMods(ModifierRegistry.HURTERS, f);
 
+		write("## Misc.", f);
+		write("These effects are general and don't fit into any other categories.", f);
+		writeMods(ModifierRegistry.MISC, f);
 	}
 
 	public static void genWiki() {
