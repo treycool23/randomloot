@@ -47,7 +47,7 @@ public class Melting implements BlockBreakModifier {
 	}
 
 	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
+	public boolean startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
 
 		Level l = player.level();
 
@@ -107,6 +107,7 @@ public class Melting implements BlockBreakModifier {
 		};
 
 		thread.start();
+		return false;
 
 	}
 

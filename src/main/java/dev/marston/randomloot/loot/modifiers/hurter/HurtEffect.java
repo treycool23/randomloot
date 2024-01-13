@@ -107,10 +107,10 @@ public class HurtEffect implements EntityHurtModifier {
 	}
 
 	@Override
-	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
+	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, 1, false, false);
 
 		hurtee.addEffect(eff);
-
+		return false;
 	}
 }

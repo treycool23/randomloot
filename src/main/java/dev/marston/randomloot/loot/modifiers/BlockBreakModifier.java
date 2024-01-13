@@ -5,6 +5,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public interface BlockBreakModifier extends Modifier {
-	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player);
+	public boolean startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player);
 
 }

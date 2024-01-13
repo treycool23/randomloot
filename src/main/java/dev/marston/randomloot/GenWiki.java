@@ -16,11 +16,17 @@ import com.google.gson.JsonObject;
 
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import dev.marston.randomloot.loot.modifiers.ModifierRegistry;
+import net.minecraft.resources.ResourceLocation;
 
 public class GenWiki {
 
 	private static void write(String s, FileWriter f) throws IOException {
 		f.write(s + "\n");
+	}
+
+	private static String stripItemName(String name) {
+		ResourceLocation loc = ResourceLocation.tryParse(name);
+		return loc.getPath();
 	}
 
 	private static void writeMod(Modifier m, FileWriter f) throws IOException {
@@ -32,7 +38,10 @@ public class GenWiki {
 			RandomLootMod.LOGGER.warn("failed to find recipe for " + tag + ".");
 		}
 		write("### " + m.name(), f);
-		write("**id:** `" + tag + "` | **crafting:** `" + recipe + "`", f);
+
+		write("**id:** `" + tag + "` | **crafting:** `" + recipe + "` ![" + stripItemName(recipe)
+				+ "](https://raw.githubusercontent.com/anish-shanbhag/minecraft-api/master/public/images/items/"
+				+ stripItemName(recipe) + ".png)", f);
 		write("", f);
 		write("**Decription:** " + m.description(), f);
 	}

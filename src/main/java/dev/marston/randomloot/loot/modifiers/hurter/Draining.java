@@ -97,10 +97,10 @@ public class Draining implements EntityHurtModifier {
 	}
 
 	@Override
-	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
+	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 		float damage = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
 
 		hurter.heal(damage * 0.25f);
-
+		return false;
 	}
 }

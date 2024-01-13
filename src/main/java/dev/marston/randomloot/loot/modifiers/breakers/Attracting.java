@@ -39,7 +39,7 @@ public class Attracting implements BlockBreakModifier {
 	}
 
 	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
+	public boolean startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
 
 		Level l = player.level();
 
@@ -64,7 +64,7 @@ public class Attracting implements BlockBreakModifier {
 		};
 
 		thread.start();
-
+		return false;
 	}
 
 	@Override

@@ -44,10 +44,10 @@ public class Learning implements BlockBreakModifier {
 	}
 
 	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity entity) {
+	public boolean startBreak(ItemStack itemstack, BlockPos pos, LivingEntity entity) {
 
 		if (!(entity instanceof Player)) {
-			return;
+			return false;
 		}
 
 		Player player = (Player) entity;
@@ -60,6 +60,7 @@ public class Learning implements BlockBreakModifier {
 		}
 
 		LootUtils.addModifier(itemstack, this);
+		return false;
 	}
 
 	@Override

@@ -155,11 +155,6 @@ public class LootItem extends Item {
 	}
 
 	@Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-		return true;
-	}
-
-	@Override
 	public boolean isRepairable(ItemStack stack) {
 		return true;
 	}
@@ -222,6 +217,7 @@ public class LootItem extends Item {
 
 		List<Modifier> mods = LootUtils.getModifiers(itemstack);
 
+		boolean shouldSkipBreak = false;
 		for (Modifier mod : mods) {
 			if (mod instanceof EntityHurtModifier) {
 				if (!Config.traitEnabled(mod.tagName())) {
@@ -229,13 +225,18 @@ public class LootItem extends Item {
 				}
 				EntityHurtModifier ehm = (EntityHurtModifier) mod;
 
-				ehm.hurtEnemy(itemstack, hurtee, hurter);
+				if (ehm.hurtEnemy(itemstack, hurtee, hurter)) {
+					shouldSkipBreak = true;
+				}
+
 			}
 		}
+		if (!shouldSkipBreak) {
+			itemstack.hurtAndBreak(1, hurter, (p_43296_) -> {
+				p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+			});
+		}
 
-		itemstack.hurtAndBreak(1, hurter, (p_43296_) -> {
-			p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-		});
 		return true;
 	}
 
@@ -269,18 +270,23 @@ public class LootItem extends Item {
 
 			List<Modifier> mods = LootUtils.getModifiers(stack);
 
+			boolean shouldSkipBreak = false;
 			for (Modifier mod : mods) {
 
 				if (mod instanceof BlockBreakModifier) {
 					BlockBreakModifier bbm = (BlockBreakModifier) mod;
 
-					bbm.startBreak(stack, pos, player);
+					if (bbm.startBreak(stack, pos, player)) {
+						shouldSkipBreak = true;
+					}
 				}
 			}
 
-			stack.hurtAndBreak(1, player, (p_40992_) -> {
-				p_40992_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-			});
+			if (!shouldSkipBreak) {
+				stack.hurtAndBreak(1, player, (p_40992_) -> {
+					p_40992_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+				});
+			}
 
 			LootUtils.addXp(stack, player, 1);
 

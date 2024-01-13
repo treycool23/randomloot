@@ -83,22 +83,22 @@ public class Veiny implements BlockBreakModifier {
 	}
 
 	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity p) {
+	public boolean startBreak(ItemStack itemstack, BlockPos pos, LivingEntity p) {
 
 		if (!(p instanceof ServerPlayer)) {
-			return;
+			return false;
 		}
 
 		ServerPlayer player = (ServerPlayer) p;
 
 		if (!player.isCrouching()) {
-			return;
+			return false;
 		}
 
 		Level l = player.level();
 
 		if (l.isClientSide) {
-			return;
+			return false;
 		}
 
 		BlockState state = l.getBlockState(pos);
@@ -106,7 +106,7 @@ public class Veiny implements BlockBreakModifier {
 		LootItem li = (LootItem) itemstack.getItem();
 
 		if (!li.isCorrectToolForDrops(itemstack, state)) {
-			return;
+			return false;
 		}
 
 		Block b = state.getBlock();
@@ -126,6 +126,7 @@ public class Veiny implements BlockBreakModifier {
 			});
 
 		}
+		return false;
 	}
 
 	@Override

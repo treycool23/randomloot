@@ -94,7 +94,7 @@ public class Critical implements EntityHurtModifier {
 	}
 
 	@Override
-	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
+	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 		float dmg = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
 
 		float amt = dmg * 0.5f;
@@ -104,10 +104,11 @@ public class Critical implements EntityHurtModifier {
 		if (hurter instanceof Player) {
 			Player p = (Player) hurter;
 			hurtee.hurt(hurter.damageSources().playerAttack(p), amt);
-			return;
+			return false;
 		}
 
 		hurtee.hurt(hurter.damageSources().mobAttack(hurter), amt);
 
+		return false;
 	}
 }

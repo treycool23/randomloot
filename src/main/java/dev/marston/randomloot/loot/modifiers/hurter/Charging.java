@@ -129,7 +129,7 @@ public class Charging implements EntityHurtModifier {
 	}
 
 	@Override
-	public void hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
+	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 
 		Level level = hurtee.level();
 
@@ -147,6 +147,8 @@ public class Charging implements EntityHurtModifier {
 			this.charged = time;
 			LootUtils.addModifier(itemstack, this);
 		}
+
+		return false;
 
 	}
 

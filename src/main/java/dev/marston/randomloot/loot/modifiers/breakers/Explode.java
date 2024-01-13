@@ -37,12 +37,14 @@ public class Explode implements BlockBreakModifier {
 	}
 
 	@Override
-	public void startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
+	public boolean startBreak(ItemStack itemstack, BlockPos pos, LivingEntity player) {
 
 		Level l = player.level();
 
 		l.explode(player, null, null, pos.getX(), pos.getY(), pos.getZ(), power, false, ExplosionInteraction.BLOCK,
 				false);
+
+		return false;
 	}
 
 	@Override

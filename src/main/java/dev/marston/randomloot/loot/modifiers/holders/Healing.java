@@ -1,37 +1,39 @@
-package dev.marston.randomloot.loot.modifiers.hurter;
+package dev.marston.randomloot.loot.modifiers.holders;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import dev.marston.randomloot.loot.LootItem.ToolType;
-import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
+import dev.marston.randomloot.loot.modifiers.HoldModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Fire implements EntityHurtModifier {
-	private String name;
-	private int points;
-	private final static String POINTS = "points";
+public class Healing implements HoldModifier {
 
-	public Fire(String name, int points) {
+	private String name;
+	private float power;
+	private final static String POWER = "power";
+
+	public Healing(String name, float power) {
 		this.name = name;
-		this.points = points;
+		this.power = power;
 	}
 
-	public Fire() {
-		this.name = "Flaming";
-		this.points = 2;
+	public Healing() {
+		this.name = "Living";
+		this.power = 0.005f;
 	}
 
 	public Modifier clone() {
-		return new Fire();
+		return new Healing();
 	}
 
 	@Override
@@ -39,7 +41,8 @@ public class Fire implements EntityHurtModifier {
 
 		CompoundTag tag = new CompoundTag();
 
-		tag.putInt(POINTS, points);
+		tag.putFloat(POWER, power);
+
 		tag.putString(NAME, name);
 
 		return tag;
@@ -47,7 +50,7 @@ public class Fire implements EntityHurtModifier {
 
 	@Override
 	public Modifier fromNBT(CompoundTag tag) {
-		return new Fire(tag.getString(NAME), tag.getInt(POINTS));
+		return new Healing(tag.getString(NAME), tag.getFloat(POWER));
 	}
 
 	@Override
@@ -57,25 +60,25 @@ public class Fire implements EntityHurtModifier {
 
 	@Override
 	public String tagName() {
-		return "flaming";
+		return "living";
 	}
 
 	@Override
 	public String color() {
-		return ChatFormatting.RED.getName();
+		return ChatFormatting.GREEN.getName();
 	}
 
 	@Override
 	public String description() {
-		return "Sets enemy on fire for " + this.points + " seconds.";
+		return "While holding the tool, it will randomly heal itself";
 	}
 
 	@Override
 	public void writeToLore(List<Component> list, boolean shift) {
 
 		MutableComponent comp = Modifier.makeComp(this.name(), this.color());
-		list.add(comp);
 
+		list.add(comp);
 	}
 
 	@Override
@@ -91,12 +94,32 @@ public class Fire implements EntityHurtModifier {
 
 	@Override
 	public boolean forTool(ToolType type) {
-		return type.equals(ToolType.SWORD) || type.equals(ToolType.AXE);
+		return true;
 	}
 
 	@Override
-	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
-		hurtee.setSecondsOnFire(points);
-		return false;
+	public void hold(ItemStack stack, Level level, Entity holder) {
+
+		float f = level.getRandom().nextFloat();
+		if (f < power) {
+
+			if (stack.getDamageValue() == 0) {
+				return;
+			}
+
+			stack.setDamageValue(Math.max(stack.getDamageValue() - 1, 0));
+
+			if (f < power / 5) {
+				MutableComponent comp = MutableComponent.create(ComponentContents.EMPTY);
+
+				comp.append("pssst...");
+				comp = comp.withStyle(ChatFormatting.GRAY);
+				comp = comp.withStyle(ChatFormatting.ITALIC);
+
+				holder.sendSystemMessage(comp);
+			}
+
+		}
+
 	}
 }
