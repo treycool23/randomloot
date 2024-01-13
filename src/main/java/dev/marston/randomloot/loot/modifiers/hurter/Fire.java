@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import dev.marston.randomloot.loot.LootItem.ToolType;
+import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
@@ -52,7 +53,10 @@ public class Fire implements EntityHurtModifier {
 
 	@Override
 	public String name() {
-		return name;
+		if (points == 2) {
+			return name;
+		}
+		return name + " " + LootUtils.roman(points - 1);
 	}
 
 	@Override
@@ -101,10 +105,10 @@ public class Fire implements EntityHurtModifier {
 	}
 
 	public boolean canLevel() {
-		return false;
+		return this.points < 4;
 	}
 
 	public void levelUp() {
-		return;
+		this.points++;
 	}
 }

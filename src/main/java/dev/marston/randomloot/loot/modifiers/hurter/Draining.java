@@ -54,7 +54,10 @@ public class Draining implements EntityHurtModifier {
 
 	@Override
 	public String name() {
-		return name;
+		if (points == 2) {
+			return name;
+		}
+		return name + " " + LootUtils.roman(points - 1);
 	}
 
 	@Override
@@ -69,7 +72,11 @@ public class Draining implements EntityHurtModifier {
 
 	@Override
 	public String description() {
-		return "Heals 10% of damage dealt to target.";
+		return "Heals " + String.format("%.0f", drain() * 100) + "% of damage dealt to target.";
+	}
+
+	public float drain() {
+		return ((float) this.points) * 0.05f;
 	}
 
 	@Override
@@ -100,15 +107,15 @@ public class Draining implements EntityHurtModifier {
 	public boolean hurtEnemy(ItemStack itemstack, LivingEntity hurtee, LivingEntity hurter) {
 		float damage = LootItem.getAttackDamage(itemstack, LootUtils.getToolType(itemstack));
 
-		hurter.heal(damage * 0.25f);
+		hurter.heal(damage * drain());
 		return false;
 	}
 
 	public boolean canLevel() {
-		return false;
+		return this.points < 10;
 	}
 
 	public void levelUp() {
-		return;
+		this.points++;
 	}
 }
