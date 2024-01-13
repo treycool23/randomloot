@@ -1,8 +1,8 @@
 name: 1.20 Issue Report
-about: Report an issue with the 1.20 version of Random Loot
-title: ''
-labels: [1.20, Bug, Unreviewed]
-assignees: ''
+description: Report an issue with the 1.20 version of Random Loot
+title: 1.20 Issue Report
+labels: [1.20, bug]
+assignees: TheMarstonConnell
 body:
   - type: markdown
     attributes:
