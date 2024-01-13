@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import dev.marston.randomloot.loot.LootItem.ToolType;
+import dev.marston.randomloot.loot.LootUtils;
 import dev.marston.randomloot.loot.modifiers.HoldModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
 import net.minecraft.ChatFormatting;
@@ -22,22 +23,26 @@ import net.minecraft.world.level.Level;
 public class Effect implements HoldModifier {
 
 	private String name;
-	private float power;
+	private int power;
 	private String tagname;
 	private final static String POWER = "power";
 	private MobEffect effect;
 	private int duration;
 
-	public Effect(String name, String tagname, int duration, MobEffect effect) {
+	public Effect(String name, String tagname, int power, int duration, MobEffect effect) {
 		this.name = name;
 		this.effect = effect;
-		this.power = 4.0f;
+		this.power = 0;
 		this.tagname = tagname;
 		this.duration = duration;
 	}
 
+	public Effect(String name, String tagname, int duration, MobEffect effect) {
+		this(name, tagname, 0, duration, effect);
+	}
+
 	public Modifier clone() {
-		return new Effect(this.name, this.tagname, this.duration, this.effect);
+		return new Effect(this.name, this.tagname, this.power, this.duration, this.effect);
 	}
 
 	@Override
@@ -45,21 +50,23 @@ public class Effect implements HoldModifier {
 
 		CompoundTag tag = new CompoundTag();
 
-		tag.putFloat(POWER, power);
-
 		tag.putString(NAME, name);
+		tag.putInt(POWER, power);
 
 		return tag;
 	}
 
 	@Override
 	public Modifier fromNBT(CompoundTag tag) {
-		return new Effect(tag.getString(NAME), this.tagname, this.duration, this.effect);
+		return new Effect(tag.getString(NAME), this.tagname, tag.getInt(POWER), this.duration, this.effect);
 	}
 
 	@Override
 	public String name() {
-		return name;
+		if (this.power == 0) {
+			return name;
+		}
+		return name + " " + LootUtils.roman(this.power + 1);
 	}
 
 	@Override
@@ -79,8 +86,8 @@ public class Effect implements HoldModifier {
 
 	@Override
 	public String description() {
-		return "While holding the tool, get the " + I18n.get(effect.getDisplayName().getString()).toLowerCase()
-				+ " effect.";
+		return "While holding the tool, get the " + I18n.get(effect.getDisplayName().getString()).toLowerCase() + " "
+				+ LootUtils.roman(this.power + 1) + " effect.";
 	}
 
 	@Override
@@ -109,7 +116,7 @@ public class Effect implements HoldModifier {
 
 	@Override
 	public void hold(ItemStack stack, Level level, Entity holder) {
-		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, 0, false, false);
+		MobEffectInstance eff = new MobEffectInstance(effect, duration * 20, this.power, false, false);
 
 		if (!(holder instanceof LivingEntity)) {
 			return;
@@ -124,10 +131,10 @@ public class Effect implements HoldModifier {
 	}
 
 	public boolean canLevel() {
-		return false;
+		return this.power < 4;
 	}
 
 	public void levelUp() {
-		return;
+		this.power++;
 	}
 }

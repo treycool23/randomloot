@@ -105,7 +105,7 @@ public class Fire implements EntityHurtModifier {
 	}
 
 	public boolean canLevel() {
-		return this.points < 4;
+		return this.points < 5;
 	}
 
 	public void levelUp() {
