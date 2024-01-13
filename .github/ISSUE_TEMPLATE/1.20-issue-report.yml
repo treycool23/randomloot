@@ -1,4 +1,3 @@
----
 name: 1.20 Issue Report
 about: Report an issue with the 1.20 version of Random Loot
 title: ''
@@ -87,5 +86,3 @@ body:
         - 'None of the above'
     validations:
       required: true
-      
----
