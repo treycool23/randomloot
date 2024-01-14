@@ -86,7 +86,7 @@ public class HurtEffect implements EntityHurtModifier {
 	@Override
 	public String description() {
 		return "When attacking with tool, apply the " + I18n.get(effect.getDisplayName().getString()).toLowerCase()
-				+ " " + LootUtils.roman(this.power + 1) + " effect to the target.";
+				+ " " + LootUtils.roman(this.power + 1) + " effect to the target for " + this.duration + " seconds.";
 	}
 
 	@Override
