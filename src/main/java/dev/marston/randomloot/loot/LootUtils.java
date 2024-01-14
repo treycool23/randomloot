@@ -239,7 +239,9 @@ public class LootUtils {
 	public static float getStats(ItemStack stack) {
 		CompoundTag statTag = stack.getOrCreateTagElement("itemStats");
 
-		return statTag.getFloat("goodness");
+		float goodness = statTag.getFloat("goodness");
+
+		return goodness;
 	}
 
 	public static void setTexture(ItemStack stack, int texture) {

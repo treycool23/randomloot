@@ -15,12 +15,14 @@ import dev.marston.randomloot.loot.modifiers.holders.Healing;
 import dev.marston.randomloot.loot.modifiers.holders.OreFinder;
 import dev.marston.randomloot.loot.modifiers.holders.Rainy;
 import dev.marston.randomloot.loot.modifiers.holders.TreasureFinder;
+import dev.marston.randomloot.loot.modifiers.hurter.Bezerk;
 import dev.marston.randomloot.loot.modifiers.hurter.Charging;
 import dev.marston.randomloot.loot.modifiers.hurter.Combo;
 import dev.marston.randomloot.loot.modifiers.hurter.Critical;
 import dev.marston.randomloot.loot.modifiers.hurter.Draining;
 import dev.marston.randomloot.loot.modifiers.hurter.Fire;
 import dev.marston.randomloot.loot.modifiers.hurter.HurtEffect;
+import dev.marston.randomloot.loot.modifiers.stats.Busted;
 import dev.marston.randomloot.loot.modifiers.users.DirtPlace;
 import dev.marston.randomloot.loot.modifiers.users.FireBall;
 import dev.marston.randomloot.loot.modifiers.users.FirePlace;
@@ -52,6 +54,7 @@ public class ModifierRegistry {
 	public static Modifier POISONOUS = register(new HurtEffect("Poisonous", "poison", 5, MobEffects.POISON));
 	public static Modifier WITHERING = register(new HurtEffect("Withering", "wither", 3, MobEffects.WITHER));
 	public static Modifier BLINDING = register(new HurtEffect("Blinding", "blinding", 4, MobEffects.BLINDNESS));
+	public static Modifier BEZERK = register(new Bezerk());
 
 	public static Modifier HASTY = register(new Hasty());
 	public static Modifier FILLING = register(new Effect("Filling", "filling", 2, MobEffects.SATURATION));
@@ -65,14 +68,18 @@ public class ModifierRegistry {
 	public static Modifier SPAWNER_FINDER = register(new TreasureFinder());
 	public static Modifier LIVING = register(new Healing());
 
+	public static Modifier BUSTED = register(new Busted());
+
 	public static Modifier UNBREAKING = register(new Unbreaking());
 
 	public static final Set<Modifier> BREAKERS = Set.of(EXPLODE, LEARNING, ATTRACTING, VEINY, MELTING);
 	public static final Set<Modifier> USERS = Set.of(TORCH_PLACE, DIRT_PLACE, FIRE_PLACE, FIRE_BALL);
 	public static final Set<Modifier> HURTERS = Set.of(CRITICAL, CHARGING, FLAMING, COMBO, DRAINING, POISONOUS,
-			WITHERING, BLINDING);
+			WITHERING, BLINDING, BEZERK);
 	public static final Set<Modifier> HOLDERS = Set.of(HASTY, ABSORBTION, FILLING, RAINY, ORE_FINDER, SPAWNER_FINDER,
 			LIVING);
+
+	public static final Set<Modifier> STATS = Set.of(BUSTED);
 
 	public static final Set<Modifier> MISC = Set.of(UNBREAKING);
 

@@ -14,6 +14,7 @@ import dev.marston.randomloot.loot.modifiers.BlockBreakModifier;
 import dev.marston.randomloot.loot.modifiers.EntityHurtModifier;
 import dev.marston.randomloot.loot.modifiers.HoldModifier;
 import dev.marston.randomloot.loot.modifiers.Modifier;
+import dev.marston.randomloot.loot.modifiers.StatsModifier;
 import dev.marston.randomloot.loot.modifiers.Unbreaking;
 import dev.marston.randomloot.loot.modifiers.UseModifier;
 import net.minecraft.ChatFormatting;
@@ -77,12 +78,27 @@ public class LootItem extends Item {
 
 	public static float getDigSpeed(ItemStack stack, ToolType type) {
 
+		float statMod = 1.0f;
+
+		List<Modifier> mods = LootUtils.getModifiers(stack);
+
+		for (Modifier mod : mods) {
+			if (mod instanceof StatsModifier) {
+				if (!Config.traitEnabled(mod.tagName())) {
+					continue;
+				}
+				StatsModifier ehm = (StatsModifier) mod;
+
+				statMod *= ehm.getStats(stack);
+			}
+		}
+
 		if (type.equals(ToolType.SWORD)) {
 			return 1.0f;
 		}
 
 		float speed = (LootUtils.getStats(stack) / 2.0f) + 6.0f;
-		return speed;
+		return speed * statMod;
 	}
 
 	public static float getAttackSpeed(ItemStack stack, ToolType type) {
