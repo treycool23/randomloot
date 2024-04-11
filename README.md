@@ -1,3 +1,10 @@
+# What is Fork?
+This is a fork of the Random Loot (sometimes called Random Loot 2) mod for Minecraft. The Random Loot mod was created by TheMarstonConnell. 
+I, treycool23, created this fork in the hopes of continuing the Random Loot mod for 1.20.1 in the absence of its creator, who has seemingly moved on to working on the blockchain.
+As an amateur programmer, and someone who has never created a minecraft mod before, this is my first real project. Any help or comments would be greatly appreciated. 
+
+The default Random Loot description is below. 
+
 # Random Loot
 ![CF downloads](https://cf.way2muchnoise.eu/301631.svg) ![Modrinth Downloads](https://img.shields.io/modrinth/dt/bM2Gf75C?logo=modrinth&label=Modrinth)
  ![CF Version](https://cf.way2muchnoise.eu/versions/301631.svg) [![Gradle Build](https://github.com/TheMarstonConnell/randomloot/actions/workflows/gradle.yml/badge.svg)](https://github.com/TheMarstonConnell/randomloot/actions/workflows/gradle.yml) [![](https://dcbadge.vercel.app/api/server/w7FDgqB?style=flat)](https://discord.gg/w7FDgqB)
