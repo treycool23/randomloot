@@ -1,4 +1,4 @@
-# What is Fork?
+# What is this Fork?
 This is a fork of the Random Loot (sometimes called Random Loot 2) mod for Minecraft. The Random Loot mod was created by TheMarstonConnell. 
 I, treycool23, created this fork in the hopes of continuing the Random Loot mod for 1.20.1 in the absence of its creator, who has seemingly moved on to working on the blockchain.
 As an amateur programmer, and someone who has never created a minecraft mod before, this is my first real project. Any help or comments would be greatly appreciated. 
